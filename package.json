@@ -1,6 +1,6 @@
 {
   "name": "dsh-session-hotkeys",
-  "version": "1.0.0",
+  "version": "1.3.1",
   "description": "Session hotkeys for DeepSeek Harness Web: Alt+1-9 positional switching, independent pinned slots (Alt+Shift+1-9), keyboard navigation over the real session list, new-session and search-focus shortcuts — every binding rebindable from the panel.",
   "type": "module",
   "main": "lib/index.js",
@@ -31,6 +31,15 @@
     }
   },
   "license": "MIT",
+  "author": "Captain Americano <william.yemao@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YEYEYEYESHIFU/dsh-session-hotkeys.git"
+  },
+  "homepage": "https://github.com/YEYEYEYESHIFU/dsh-session-hotkeys#readme",
+  "bugs": {
+    "url": "https://github.com/YEYEYEYESHIFU/dsh-session-hotkeys/issues"
+  },
   "keywords": [
     "dsh",
     "deepseek-harness",
@@ -41,6 +50,7 @@
     "productivity"
   ],
   "scripts": {
-    "verify": "node scripts/verify-self-contained.mjs"
+    "verify": "node scripts/verify-self-contained.mjs",
+    "prepublishOnly": "node scripts/verify-self-contained.mjs"
   }
 }

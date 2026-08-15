@@ -16,7 +16,7 @@ Session hotkeys for DeepSeek Harness Web: manage sessions from the keyboard the 
 | New session | `Alt+N` | `⌃⌥N` |
 | Archive current session | `Alt+Shift+A` | `⌃⌥A` |
 | Rename current session | `Alt+Shift+R` | `⌃⌥R` |
-| Nav mode (↑↓ move · Enter enter · Esc cancel) | `Alt+\`` | `⌃\`` |
+| Navigation mode (↑↓ move · Enter enter · Esc cancel) | `Alt+\`` | `⌃\`` |
 | Open panel | `Alt+P` | `⌃⌥P` |
 | Focus + clear search box | `Alt+Shift+F` | `⌃⇧F` |
 
@@ -24,14 +24,16 @@ Why the macOS preset looks this way: in Chrome **both** `⌘+1-9` and `⌃+1-9` 
 
 - **`Alt+1-9` / `⌃⇧1-9`**: always switch to the Nth session by sidebar display order (independent of pins; follows grouping, promotion and collapsed groups — what you see is what you get).
 - **Pinned slots** (Windows `Alt+Shift+1-9` / macOS `⌃⌥1-9`): tri-state semantics — empty slot pins the current session; a slot holding another session jumps to it; a slot holding the current session unpins it. Made for power users who keep many hot sessions and want one-key return.
-- **Archive current session**: moves the current session into the sidebar's archive section in one key (recoverable from there; nothing is deleted).
+- **Archive current session**: removes the current session from the session list in one key — ⚠️ DSH currently cannot unarchive sessions, so proceed with caution. Nothing is deleted.
 - **Rename current session**: opens a prompt with the current title pre-filled; confirm to rename immediately, leave empty or cancel to keep it.
 - **New session**: in the current workspace, else the most recent one.
-- **Nav mode**: moves a highlight ring over the **real sidebar session rows**; `↑↓` to move, `Enter` to enter (equivalent to clicking the row), `Esc` to cancel. No session switch happens before Enter. The ring also lands on a collapsed group's "Show N more sessions" button: Enter expands the group and moves the highlight to the first newly revealed session (its content still waits for the next Enter).
+- **Navigation mode**: moves a highlight ring over the **real sidebar session rows**; `↑↓` to move, `Enter` to enter (equivalent to clicking the row), `Esc` to cancel. No session switch happens before Enter. The ring also lands on a collapsed group's "Show N more sessions" button: Enter expands the group and moves the highlight to the first newly revealed session (its content still waits for the next Enter).
 - **Focus search**: focus the session search box and clear it (auto-expands a collapsed sidebar).
-- **Every binding is rebindable**: record a new combination in the panel's "Keys" tab, with conflict detection and one-click reset to the platform preset. Bindings and pins persist in localStorage across refreshes and DSH restarts.
+- **Every binding is rebindable**: record a new combination in the panel's "Keys" tab, with conflict detection and one-click reset to the platform preset. A binding must include at least one of Ctrl / Alt / ⌘ (a bare letter or Shift+letter would break typing). Bindings and pins persist in localStorage across refreshes and DSH restarts.
 - **Three panel tabs**: the positional list keyed by the switch binding (e.g. `Alt+1-9` / `⌃⇧1-9`, pin any session to a chosen slot) / pin management keyed by the pin binding (e.g. `Alt+Shift+1-9` / `⌃⌥1-9`) / `Keys` — rebinding doubles as the cheat sheet, with a one-line description per action and the full text on hover. Tab names follow the current bindings live.
+- **Keyboard navigation**: with the panel open, `↑`/`↓` move the highlight over the rows (the list scrolls automatically), `←`/`→` cycle through the three tabs in a loop, `Esc` closes.
 - **Clean lifecycle**: all event listeners, styles and DOM nodes are removed on unload.
+- **Works while typing**: shortcuts fire even while the chat/search input is focused, so switching sessions needs no blur-first step. Plain typing never triggers them (every binding carries Ctrl / Alt / ⌘); on macOS the one exception is `⌃⇧F`, which overrides the text-field "extend selection" Emacs action.
 
 ## Install
 
@@ -62,12 +64,12 @@ dsh --profile web
 ## Usage
 
 1. `Alt+1-9` jumps straight to the Nth sidebar session; `Alt+Shift+1-9` is the pin slot tri-state key (macOS: `⌃⇧1-9` / `⌃⌥1-9`).
-2. `Alt+\`` enters nav mode: `↑↓` moves the highlight ring, `Enter` enters, `Esc` cancels.
+2. `Alt+\`` enters navigation mode: `↑↓` moves the highlight ring, `Enter` enters, `Esc` cancels.
 3. Click the keyboard icon at the sidebar foot (or press `Alt+P`) to open the panel; rebind anything in the "Keys" tab.
 
 ## How it works
 
-A browser-only Cordis bundle. It reads the session list and current session from the `sessions` service, switches with `sessions.open()`, creates sessions via `workspaces.startSession()`, and expands the sidebar via `layout.toggleSidebar()` when needed. Session display order is read **directly from the rendered sidebar DOM** (row titles mapped back to session ids), so it always matches the grouping/sorting/collapse state the user sees. The nav-mode ring and hint are mounted on `document.body`, independent of any slot render chain. No server data channel, no server-side state.
+A browser-only Cordis bundle. It reads the session list and current session from the `sessions` service, switches with `sessions.open()`, creates sessions via `workspaces.startSession()`, and expands the sidebar via `layout.toggleSidebar()` when needed. Session display order is read **directly from the rendered sidebar DOM** (row titles mapped back to session ids), so it always matches the grouping/sorting/collapse state the user sees. The navigation-mode ring and hint are mounted on `document.body`, independent of any slot render chain. No server data channel, no server-side state.
 
 ## Known limitations
 
