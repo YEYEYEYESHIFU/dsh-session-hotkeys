@@ -61,7 +61,7 @@ dsh --profile web
 
 ## Usage
 
-1. `Alt+1~9` jumps straight to the Nth sidebar session; `Alt+Shift+N` pins the current session to slot N.
+1. `Alt+1-9` jumps straight to the Nth sidebar session; `Alt+Shift+1-9` is the pin slot tri-state key (macOS: `⌃⇧1-9` / `⌃⌥1-9`).
 2. `Alt+\`` enters nav mode: `↑↓` moves the highlight ring, `Enter` enters, `Esc` cancels.
 3. Click the keyboard icon at the sidebar foot (or press `Alt+P`) to open the panel; rebind anything in the "Keys" tab.
 
