@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 - Previous / next session hotkeys: `Alt+↑` / `Alt+↓` on Windows, `⌃⌥↑` / `⌃⌥↓` on macOS (Ctrl+Up/Down is Mission Control), stepping through the sidebar display order with wrap-around at both ends; both actions are rebindable from the panel.
+- Diagnostics: the recent-hits list now shows the last 3 hits.
 
 ## [1.4.1] - 2026-08-16
 
