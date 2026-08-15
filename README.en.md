@@ -32,6 +32,7 @@ Why the macOS preset looks this way: in Chrome **both** `⌘+1-9` and `⌃+1-9` 
 - **Every binding is rebindable**: record a new combination in the panel's "Keys" tab, with conflict detection and one-click reset to the platform preset. A binding must include at least one of Ctrl / Alt / ⌘ (a bare letter or Shift+letter would break typing). Bindings and pins persist in localStorage across refreshes and DSH restarts.
 - **Three panel tabs**: the positional list keyed by the switch binding (e.g. `Alt+1-9` / `⌃⇧1-9`, pin any session to a chosen slot) / pin management keyed by the pin binding (e.g. `Alt+Shift+1-9` / `⌃⌥1-9`) / `Keys` — rebinding doubles as the cheat sheet, with a one-line description per action and the full text on hover. Tab names follow the current bindings live.
 - **Keyboard navigation**: with the panel open, `↑`/`↓` move the highlight over the rows (the list scrolls automatically), `←`/`→` cycle through the three tabs in a loop, `Esc` closes.
+- **Built-in diagnostics**: the panel footer shows recent shortcut hits and service availability (sessions/workspaces/layout), so "why didn't it fire" is self-service.
 - **Clean lifecycle**: all event listeners, styles and DOM nodes are removed on unload.
 - **Works while typing**: shortcuts fire even while the chat/search input is focused, so switching sessions needs no blur-first step. Plain typing never triggers them (every binding carries Ctrl / Alt / ⌘); on macOS the one exception is `⌃⇧F`, which overrides the text-field "extend selection" Emacs action.
 
