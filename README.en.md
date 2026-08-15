@@ -72,6 +72,7 @@ A browser-only Cordis bundle. It reads the session list and current session from
 - Session order and search-box targeting depend on DSH Web's DOM structure (CSS class names), with fuzzy fallbacks. If a DSH Web upgrade breaks them, please upgrade this plugin or open an issue mentioning your DSH version.
 - Key recording accepts letters, `` ` ``, F1–F12, and (for digit actions) digits 1–9.
 - Pins and bindings are stored per browser origin; clearing site data resets them.
+- On Windows the plugin prevents the default Alt-key behavior so Chrome no longer steals focus to the browser menu (⋮) and swallows Alt+digits; the tradeoff is that Alt-code entry on the numpad (e.g. `Alt+0167`) no longer works inside DSH Web input fields.
 
 ## Development
 
