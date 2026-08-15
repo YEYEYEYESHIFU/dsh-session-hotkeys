@@ -1,10 +1,114 @@
 # dsh-session-hotkeys
 
-[English](README.en.md) | 简体中文
+Session hotkeys for DeepSeek Harness Web · 给 DeepSeek Harness Web 的会话快捷键插件
+
+Manage sessions from the keyboard the way you switch browser tabs — 像切换浏览器标签页一样用键盘管理会话。
+
+**English | 简体中文** — this README is bilingual, English first and 中文在后。
+
+---
+
+## English
+
+Session hotkeys for DeepSeek Harness Web: manage sessions from the keyboard the way you switch browser tabs.
+
+### Features
+
+- **Platform-aware dual presets**: Windows / macOS are detected at startup and each gets its own default bindings; manual rebinds override the preset and "Reset" restores the current platform preset.
+
+| Action | Windows preset | macOS preset (Chrome + Safari safe) |
+| --- | --- | --- |
+| Switch to Nth session | `Alt+1-9` | `⌃⇧1-9` |
+| Pinned slot tri-state (pin/jump/unpin) | `Alt+Shift+1-9` | `⌃⌥1-9` |
+| Jump to pinned slot | `Ctrl+Alt+1-9` | `⌃⌥⇧1-9` |
+| New session | `Alt+N` | `⌃⌥N` |
+| Archive current session | `Alt+Shift+A` | `⌃⌥A` |
+| Rename current session | `Alt+Shift+R` | `⌃⌥R` |
+| Navigation mode (↑↓ move · Enter enter · Esc cancel) | `Alt+`` | `⌃`` |
+| Open panel | `Alt+P` | `⌃⌥P` |
+| Focus + clear search box | `Alt+Shift+F` | `⌃⇧F` |
+
+Why the macOS preset looks this way: in Chrome **both** `⌘+1-9` and `⌃+1-9` switch tabs (Safari: `⌘+1-9`), so positional switching uses `⌃⇧1-9`; `⌥` (Option) is the special-character key and is never used alone (it would break typing); `⌃+N/P/F/B/A/E/K/D` are Emacs line-editing bindings in macOS text fields; `⌘⇧+3/4/5` are system screenshots. Every combo has been screened against macOS Chrome and Safari. On macOS all bindings render with native symbols: ⌃ = Control, ⌥ = Option, ⇧ = Shift, ⌘ = Command (the Fn key is never reported to web key events, so it is not used).
+
+- **`Alt+1-9` / `⌃⇧1-9`**: always switch to the Nth session by sidebar display order (independent of pins; follows grouping, promotion and collapsed groups — what you see is what you get).
+- **Pinned slots** (Windows `Alt+Shift+1-9` / macOS `⌃⌥1-9`): tri-state semantics — empty slot pins the current session; a slot holding another session jumps to it; a slot holding the current session unpins it. Made for power users who keep many hot sessions and want one-key return.
+- **Archive current session**: removes the current session from the session list in one key — ⚠️ DSH currently cannot unarchive sessions, so proceed with caution. Nothing is deleted.
+- **Rename current session**: opens a prompt with the current title pre-filled; confirm to rename immediately, leave empty or cancel to keep it.
+- **New session**: in the current workspace, else the most recent one.
+- **Navigation mode**: moves a highlight ring over the **real sidebar session rows**; `↑↓` to move, `Enter` to enter (equivalent to clicking the row), `Esc` to cancel. No session switch happens before Enter. The ring also lands on a collapsed group's "Show N more sessions" button: Enter expands the group and moves the highlight to the first newly revealed session (its content still waits for the next Enter).
+- **Focus search**: focus the session search box and clear it (auto-expands a collapsed sidebar).
+- **Every binding is rebindable**: record a new combination in the panel's "Keys" tab, with conflict detection and one-click reset to the platform preset. A binding must include at least one of Ctrl / Alt / ⌘ (a bare letter or Shift+letter would break typing). Bindings and pins persist in localStorage across refreshes and DSH restarts.
+- **Three panel tabs**: the positional list keyed by the switch binding (e.g. `Alt+1-9` / `⌃⇧1-9`, pin any session to a chosen slot) / pin management keyed by the pin binding (e.g. `Alt+Shift+1-9` / `⌃⌥1-9`) / `Keys` — rebinding doubles as the cheat sheet, with a one-line description per action and the full text on hover. Tab names follow the current bindings live.
+- **Keyboard navigation**: with the panel open, `↑`/`↓` move the highlight over the rows (the list scrolls automatically), `←`/`→` cycle through the three tabs in a loop, `Esc` closes.
+- **Built-in diagnostics**: the panel footer shows recent shortcut hits and service availability (sessions/workspaces/layout), so "why didn't it fire" is self-service.
+- **Clean lifecycle**: all event listeners, styles and DOM nodes are removed on unload.
+- **Works while typing**: shortcuts fire even while the chat/search input is focused, so switching sessions needs no blur-first step. Plain typing never triggers them (every binding carries Ctrl / Alt / ⌘); on macOS the one exception is `⌃⇧F`, which overrides the text-field "extend selection" Emacs action.
+
+### Install
+
+Add the bundle to your DSH Web profile. From npm:
+
+```sh
+dsh plugin --profile web add "dsh-session-hotkeys"
+```
+
+Or straight from Git:
+
+```sh
+dsh plugin --profile web add "github:<your-user>/dsh-session-hotkeys#main"
+```
+
+On older CLI versions without the `dsh plugin` subcommand, register manually:
+
+1. Add `dsh-session-hotkeys` to both `dependencies` and `dsh.profile.bundles` in the profile's `package.json`
+2. Run `pnpm install` inside the profile directory
+3. Restart DSH
+
+Then start DSH Web:
+
+```sh
+dsh --profile web
+```
+
+### Usage
+
+1. `Alt+1-9` jumps straight to the Nth sidebar session; `Alt+Shift+1-9` is the pin slot tri-state key (macOS: `⌃⇧1-9` / `⌃⌥1-9`).
+2. `Alt+`` enters navigation mode: `↑↓` moves the highlight ring, `Enter` enters, `Esc` cancels.
+3. Click the keyboard icon at the sidebar foot (or press `Alt+P`) to open the panel; rebind anything in the "Keys" tab.
+
+### How it works
+
+A browser-only Cordis bundle. It reads the session list and current session from the `sessions` service, switches with `sessions.open()`, creates sessions via `workspaces.startSession()`, and expands the sidebar via `layout.toggleSidebar()` when needed. Session display order is read **directly from the rendered sidebar DOM** (row titles mapped back to session ids), so it always matches the grouping/sorting/collapse state the user sees. The navigation-mode ring and hint are mounted on `document.body`, independent of any slot render chain. No server data channel, no server-side state.
+
+### Known limitations
+
+- Session order and search-box targeting depend on DSH Web's DOM structure (CSS class names), with fuzzy fallbacks. If a DSH Web upgrade breaks them, please upgrade this plugin or open an issue mentioning your DSH version.
+- Key recording accepts letters, `` ``, F1–F12, and (for digit actions) digits 1–9.
+- Pins and bindings are stored per browser origin; clearing site data resets them.
+- On Windows the plugin prevents the default Alt-key behavior so Chrome no longer steals focus to the browser menu (⋮) and swallows Alt+digits; the tradeoff is that Alt-code entry on the numpad (e.g. `Alt+0167`) no longer works inside DSH Web input fields.
+
+### Development
+
+```sh
+git clone https://github.com/<your-user>/dsh-session-hotkeys.git
+cd dsh-session-hotkeys
+npm run verify     # self-check: package structure, parseable client bundle, no external imports
+```
+
+To test locally, link the package into a profile and restart DSH Web.
+
+### License
+
+[MIT](LICENSE)
+
+
+---
+
+## 简体中文
 
 给 DeepSeek Harness Web 的会话快捷键插件：像切换浏览器标签页一样用键盘管理会话。
 
-## 功能
+### 功能
 
 - **平台自适应双预设**：启动时自动检测 Windows / macOS，各用一套默认键位；用户手动改键覆盖预设，「恢复默认」回到当前平台预设。
 
@@ -16,7 +120,7 @@
 | 新建会话 | `Alt+N` | `⌃⌥N` |
 | 归档当前会话 | `Alt+Shift+A` | `⌃⌥A` |
 | 重命名当前会话 | `Alt+Shift+R` | `⌃⌥R` |
-| 导航模式（↑↓ 选择 · Enter 进入 · Esc 取消） | `Alt+\`` | `⌃\`` |
+| 导航模式（↑↓ 选择 · Enter 进入 · Esc 取消） | `Alt+`` | `⌃`` |
 | 打开面板 | `Alt+P` | `⌃⌥P` |
 | 聚焦并清空搜索框 | `Alt+Shift+F` | `⌃⇧F` |
 
@@ -36,7 +140,7 @@ macOS 预设的键位选择理由：Chrome 里 `⌘+1-9` 和 `⌃+1-9` **都会*
 - **干净的生命周期**：卸载时移除全部事件监听、样式与 DOM 节点。
 - **输入中可用**：聊天输入框/搜索框聚焦时快捷键依然生效，切换会话无需先退出输入状态。普通打字不会误触发（所有键位都含 Ctrl / Alt / ⌘）；macOS 上唯一例外是 `⌃⇧F`，它会覆盖文本域的「向后扩展选区」Emacs 操作。
 
-## 安装
+### 安装
 
 把本包加入你的 DSH Web profile。从 npm：
 
@@ -62,24 +166,24 @@ dsh plugin --profile web add "github:<你的用户名>/dsh-session-hotkeys#main"
 dsh --profile web
 ```
 
-## 使用
+### 使用
 
 1. `Alt+1-9` 直达侧边栏第 N 个会话；`Alt+Shift+1-9` 固定槽位三态键（macOS 对应 `⌃⇧1-9` / `⌃⌥1-9`）。
-2. `Alt+\`` 进入导航模式，`↑↓` 移动高亮环，`Enter` 进入，`Esc` 取消。
+2. `Alt+`` 进入导航模式，`↑↓` 移动高亮环，`Enter` 进入，`Esc` 取消。
 3. 点侧边栏底部键盘图标（或 `Alt+P`）打开面板，在「按键」页给任意功能重新录制键位。
 
-## 工作原理
+### 工作原理
 
 插件是纯浏览器端 Cordis bundle：从 `sessions` 服务读取会话列表与当前会话，`sessions.open()` 执行切换；`workspaces.startSession()` 新建会话；`layout.toggleSidebar()` 在需要时展开侧栏。会话显示顺序**直接读取已渲染的侧边栏 DOM**（行标题映射回会话 id），因此与用户看到的分组/排序/折叠状态完全一致；导航模式的高亮环和提示条直接挂在 `document.body`，不依赖任何插槽渲染链。不新增任何服务端数据通道，不保存任何服务端状态。
 
-## 已知限制
+### 已知限制
 
 - 会话顺序与搜索框定位依赖 DSH Web 的 DOM 结构（CSS 类名），并带有模糊匹配回退；DSH Web 前端升级后如失效，请升级本插件或提 issue 注明 DSH 版本。
-- 键位录制仅支持字母、`` ` ``、F1–F12 与数字（数字类动作）组合。
+- 键位录制仅支持字母、`` ``、F1–F12 与数字（数字类动作）组合。
 - 固定槽位与键位按浏览器 origin 存储，换浏览器/清缓存会重置。
 - 在 Windows 上，插件会阻止 Alt 键的默认行为，以免 Chrome 把焦点切到浏览器菜单（⋮）吞掉 Alt+数字；代价是 DSH 输入框里 Alt+小键盘的 Alt 码输入（如 `Alt+0167`）不可用。
 
-## 开发
+### 开发
 
 ```sh
 git clone https://github.com/<你的用户名>/dsh-session-hotkeys.git
@@ -89,6 +193,7 @@ npm run verify     # 自检：包结构 / 客户端 bundle 可解析且无外部
 
 本地试跑：把包 link 进 profile 后重启 DSH Web 即可。
 
-## License
+### License
 
 [MIT](LICENSE)
+

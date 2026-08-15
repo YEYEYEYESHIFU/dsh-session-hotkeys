@@ -3,6 +3,11 @@
 All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.1] - 2026-08-16
+
+### Changed
+- Merged README.md and README.en.md into a single bilingual README (English first, 简体中文 second); README.en.md removed from the repo and the npm tarball.
+
 ## [1.4.0] - 2026-08-16
 
 ### Added
