@@ -1,0 +1,46 @@
+{
+  "name": "dsh-session-hotkeys",
+  "version": "1.0.0",
+  "description": "Session hotkeys for DeepSeek Harness Web: Alt+1-9 positional switching, independent pinned slots (Alt+Shift+1-9), keyboard navigation over the real session list, new-session and search-focus shortcuts — every binding rebindable from the panel.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "cordis.patch.yml",
+    "README.md",
+    "README.en.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-sidebar"
+      ]
+    }
+  },
+  "license": "MIT",
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "session",
+    "hotkeys",
+    "keyboard",
+    "shortcut",
+    "productivity"
+  ],
+  "scripts": {
+    "verify": "node scripts/verify-self-contained.mjs"
+  }
+}

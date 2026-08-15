@@ -1,0 +1,6 @@
+# dsh-session-hotkeys bundle patch: mounts the session-hotkeys web client into
+# any DSH profile that lists this package in `dsh.profile.bundles`
+# (or installs it via `dsh plugin --profile <name> add ...`).
+- insert:
+    - id: session-hotkeys
+      name: 'dsh-session-hotkeys'
