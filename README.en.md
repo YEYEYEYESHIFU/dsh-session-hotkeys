@@ -15,6 +15,7 @@ Session hotkeys for DeepSeek Harness Web: manage sessions from the keyboard the 
 | Jump to pinned slot | `Ctrl+Alt+1~9` | `Ctrl+Alt+1~9` |
 | New session | `Alt+N` | `Ctrl+Alt+N` |
 | Archive current session | `Alt+Shift+A` | `Ctrl+Alt+A` |
+| Rename current session | `Alt+Shift+R` | `Ctrl+Alt+R` |
 | Nav mode (↑↓ move · Enter enter · Esc cancel) | `Alt+\`` | `Ctrl+\`` |
 | Open panel | `Alt+P` | `Ctrl+Alt+P` |
 | Focus + clear search box | `Alt+Shift+F` | `Ctrl+Shift+F` |
@@ -24,6 +25,7 @@ Why the macOS preset looks this way: `Cmd+digits` switch browser tabs in Chrome 
 - **`Alt+1~9` / `Ctrl+1~9`**: always switch to the Nth session by sidebar display order (independent of pins; follows grouping, promotion and collapsed groups — what you see is what you get).
 - **Pinned slots** (Windows `Alt+Shift+1~9` / macOS `Ctrl+Shift+1~9`): tri-state semantics — empty slot pins the current session; a slot holding another session jumps to it; a slot holding the current session unpins it. Made for power users who keep many hot sessions and want one-key return.
 - **Archive current session**: moves the current session into the sidebar's archive section in one key (recoverable from there; nothing is deleted).
+- **Rename current session**: opens a prompt with the current title pre-filled; confirm to rename immediately, leave empty or cancel to keep it.
 - **New session**: in the current workspace, else the most recent one.
 - **Nav mode**: moves a highlight ring over the **real sidebar session rows**; `↑↓` to move, `Enter` to enter (equivalent to clicking the row), `Esc` to cancel. No session switch happens before Enter. The ring also lands on a collapsed group's "Show N more sessions" button: Enter expands the group and moves the highlight to the first newly revealed session (its content still waits for the next Enter).
 - **Focus search**: focus the session search box and clear it (auto-expands a collapsed sidebar).
