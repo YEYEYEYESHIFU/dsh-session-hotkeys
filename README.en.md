@@ -10,27 +10,27 @@ Session hotkeys for DeepSeek Harness Web: manage sessions from the keyboard the 
 
 | Action | Windows preset | macOS preset (Chrome + Safari safe) |
 | --- | --- | --- |
-| Switch to Nth session | `Alt+1~9` | `Ctrl+1~9` |
-| Pinned slot tri-state (pin/jump/unpin) | `Alt+Shift+1~9` | `Ctrl+Shift+1~9` |
-| Jump to pinned slot | `Ctrl+Alt+1~9` | `Ctrl+Alt+1~9` |
-| New session | `Alt+N` | `Ctrl+Alt+N` |
-| Archive current session | `Alt+Shift+A` | `Ctrl+Alt+A` |
-| Rename current session | `Alt+Shift+R` | `Ctrl+Alt+R` |
-| Nav mode (↑↓ move · Enter enter · Esc cancel) | `Alt+\`` | `Ctrl+\`` |
-| Open panel | `Alt+P` | `Ctrl+Alt+P` |
-| Focus + clear search box | `Alt+Shift+F` | `Ctrl+Shift+F` |
+| Switch to Nth session | `Alt+1-9` | `⌃⇧1-9` |
+| Pinned slot tri-state (pin/jump/unpin) | `Alt+Shift+1-9` | `⌃⌥1-9` |
+| Jump to pinned slot | `Ctrl+Alt+1-9` | `⌃⌥⇧1-9` |
+| New session | `Alt+N` | `⌃⌥N` |
+| Archive current session | `Alt+Shift+A` | `⌃⌥A` |
+| Rename current session | `Alt+Shift+R` | `⌃⌥R` |
+| Nav mode (↑↓ move · Enter enter · Esc cancel) | `Alt+\`` | `⌃\`` |
+| Open panel | `Alt+P` | `⌃⌥P` |
+| Focus + clear search box | `Alt+Shift+F` | `⌃⇧F` |
 
-Why the macOS preset looks this way: `Cmd+digits` switch browser tabs in Chrome and Safari; `Option` (=Alt) is the special-character key and hijacking it breaks typing; `Ctrl+N/P/F/B/A/E/K/D` are Emacs line-editing bindings in macOS text fields. The macOS preset therefore uses Ctrl-based combos only, avoiding all of the above.
+Why the macOS preset looks this way: in Chrome **both** `⌘+1-9` and `⌃+1-9` switch tabs (Safari: `⌘+1-9`), so positional switching uses `⌃⇧1-9`; `⌥` (Option) is the special-character key and is never used alone (it would break typing); `⌃+N/P/F/B/A/E/K/D` are Emacs line-editing bindings in macOS text fields; `⌘⇧+3/4/5` are system screenshots. Every combo has been screened against macOS Chrome and Safari. On macOS all bindings render with native symbols: ⌃ = Control, ⌥ = Option, ⇧ = Shift, ⌘ = Command (the Fn key is never reported to web key events, so it is not used).
 
-- **`Alt+1~9` / `Ctrl+1~9`**: always switch to the Nth session by sidebar display order (independent of pins; follows grouping, promotion and collapsed groups — what you see is what you get).
-- **Pinned slots** (Windows `Alt+Shift+1~9` / macOS `Ctrl+Shift+1~9`): tri-state semantics — empty slot pins the current session; a slot holding another session jumps to it; a slot holding the current session unpins it. Made for power users who keep many hot sessions and want one-key return.
+- **`Alt+1-9` / `⌃⇧1-9`**: always switch to the Nth session by sidebar display order (independent of pins; follows grouping, promotion and collapsed groups — what you see is what you get).
+- **Pinned slots** (Windows `Alt+Shift+1-9` / macOS `⌃⌥1-9`): tri-state semantics — empty slot pins the current session; a slot holding another session jumps to it; a slot holding the current session unpins it. Made for power users who keep many hot sessions and want one-key return.
 - **Archive current session**: moves the current session into the sidebar's archive section in one key (recoverable from there; nothing is deleted).
 - **Rename current session**: opens a prompt with the current title pre-filled; confirm to rename immediately, leave empty or cancel to keep it.
 - **New session**: in the current workspace, else the most recent one.
 - **Nav mode**: moves a highlight ring over the **real sidebar session rows**; `↑↓` to move, `Enter` to enter (equivalent to clicking the row), `Esc` to cancel. No session switch happens before Enter. The ring also lands on a collapsed group's "Show N more sessions" button: Enter expands the group and moves the highlight to the first newly revealed session (its content still waits for the next Enter).
 - **Focus search**: focus the session search box and clear it (auto-expands a collapsed sidebar).
 - **Every binding is rebindable**: record a new combination in the panel's "Keys" tab, with conflict detection and one-click reset to the platform preset. Bindings and pins persist in localStorage across refreshes and DSH restarts.
-- **Three panel tabs**: `Alt+1-9 / Ctrl+1-9` positional list (pin any session to a chosen slot) / `Alt+Shift / Ctrl+Shift` pin management / `Keys` — rebinding doubles as the cheat sheet, with a one-line description per action and the full text on hover.
+- **Three panel tabs**: the positional list keyed by the switch binding (e.g. `Alt+1-9` / `⌃⇧1-9`, pin any session to a chosen slot) / pin management keyed by the pin binding (e.g. `Alt+Shift+1-9` / `⌃⌥1-9`) / `Keys` — rebinding doubles as the cheat sheet, with a one-line description per action and the full text on hover. Tab names follow the current bindings live.
 - **Clean lifecycle**: all event listeners, styles and DOM nodes are removed on unload.
 
 ## Install
