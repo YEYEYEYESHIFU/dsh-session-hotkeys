@@ -14,7 +14,7 @@ Session hotkeys for DeepSeek Harness Web: manage sessions from the keyboard the 
 - **`Alt+P`**: open/close the hotkey panel.
 - **`Alt+Shift+F`**: focus the session search box and clear it (auto-expands a collapsed sidebar).
 - **Every binding is rebindable**: record a new combination in the panel's "Keys" tab, with conflict detection and one-click reset. Bindings and pins persist in localStorage across refreshes and DSH restarts.
-- **Four panel tabs**: `Alt+1-9` positional list (pin any session to a chosen slot) / `Alt+Shift` pin management / `Keys` rebinding / `Help` cheat sheet.
+- **Three panel tabs**: `Alt+1-9` positional list (pin any session to a chosen slot) / `Alt+Shift` pin management / `Keys` — rebinding doubles as the cheat sheet, with a one-line description per action and the full text on hover.
 - **Clean lifecycle**: all event listeners, styles and DOM nodes are removed on unload.
 
 ## Install
