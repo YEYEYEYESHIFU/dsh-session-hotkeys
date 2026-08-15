@@ -19,6 +19,8 @@ Session hotkeys for DeepSeek Harness Web: manage sessions from the keyboard the 
 | Action | Windows preset | macOS preset (Chrome + Safari safe) |
 | --- | --- | --- |
 | Switch to Nth session | `Alt+1-9` | `⌃⇧1-9` |
+| Previous session (wraps around) | `Alt+↑` | `⌃⌥↑` |
+| Next session (wraps around) | `Alt+↓` | `⌃⌥↓` |
 | Pinned slot tri-state (pin/jump/unpin) | `Alt+Shift+1-9` | `⌃⌥1-9` |
 | Jump to pinned slot | `Ctrl+Alt+1-9` | `⌃⌥⇧1-9` |
 | New session | `Alt+N` | `⌃⌥N` |
@@ -28,8 +30,9 @@ Session hotkeys for DeepSeek Harness Web: manage sessions from the keyboard the 
 | Open panel | `Alt+P` | `⌃⌥P` |
 | Focus + clear search box | `Alt+Shift+F` | `⌃⇧F` |
 
-Why the macOS preset looks this way: in Chrome **both** `⌘+1-9` and `⌃+1-9` switch tabs (Safari: `⌘+1-9`), so positional switching uses `⌃⇧1-9`; `⌥` (Option) is the special-character key and is never used alone (it would break typing); `⌃+N/P/F/B/A/E/K/D` are Emacs line-editing bindings in macOS text fields; `⌘⇧+3/4/5` are system screenshots. Every combo has been screened against macOS Chrome and Safari. On macOS all bindings render with native symbols: ⌃ = Control, ⌥ = Option, ⇧ = Shift, ⌘ = Command (the Fn key is never reported to web key events, so it is not used).
+Why the macOS preset looks this way: in Chrome **both** `⌘+1-9` and `⌃+1-9` switch tabs (Safari: `⌘+1-9`), so positional switching uses `⌃⇧1-9`; `⌥` (Option) is the special-character key and is never used alone (it would break typing); `⌃+N/P/F/B/A/E/K/D` are Emacs line-editing bindings in macOS text fields; `⌃+↑/↓` is Mission Control, so previous/next session uses `⌃⌥↑/↓`; `⌘⇧+3/4/5` are system screenshots. Every combo has been screened against macOS Chrome and Safari. On macOS all bindings render with native symbols: ⌃ = Control, ⌥ = Option, ⇧ = Shift, ⌘ = Command (the Fn key is never reported to web key events, so it is not used).
 
+- **`Alt+↑` / `Alt+↓`** (macOS `⌃⌥↑` / `⌃⌥↓`): step to the previous / next session in sidebar display order, wrapping around at both ends.
 - **`Alt+1-9` / `⌃⇧1-9`**: always switch to the Nth session by sidebar display order (independent of pins; follows grouping, promotion and collapsed groups — what you see is what you get).
 - **Pinned slots** (Windows `Alt+Shift+1-9` / macOS `⌃⌥1-9`): tri-state semantics — empty slot pins the current session; a slot holding another session jumps to it; a slot holding the current session unpins it. Made for power users who keep many hot sessions and want one-key return.
 - **Archive current session**: removes the current session from the session list in one key — ⚠️ DSH currently cannot unarchive sessions, so proceed with caution. Nothing is deleted.
@@ -75,6 +78,7 @@ dsh --profile web
 1. `Alt+1-9` jumps straight to the Nth sidebar session; `Alt+Shift+1-9` is the pin slot tri-state key (macOS: `⌃⇧1-9` / `⌃⌥1-9`).
 2. `Alt+`` enters navigation mode: `↑↓` moves the highlight ring, `Enter` enters, `Esc` cancels.
 3. Click the keyboard icon at the sidebar foot (or press `Alt+P`) to open the panel; rebind anything in the "Keys" tab.
+4. `Alt+↑` / `Alt+↓` step to the previous / next session and wrap around at the ends (macOS: `⌃⌥↑` / `⌃⌥↓`).
 
 ### How it works
 
@@ -115,6 +119,8 @@ To test locally, link the package into a profile and restart DSH Web.
 | 动作 | Windows 预设 | macOS 预设（Chrome + Safari 安全） |
 | --- | --- | --- |
 | 顺序切换第 N 个会话 | `Alt+1-9` | `⌃⇧1-9` |
+| 上一个会话（循环） | `Alt+↑` | `⌃⌥↑` |
+| 下一个会话（循环） | `Alt+↓` | `⌃⌥↓` |
 | 固定槽位三态（固定/跳转/取消） | `Alt+Shift+1-9` | `⌃⌥1-9` |
 | 跳转固定槽位 | `Ctrl+Alt+1-9` | `⌃⌥⇧1-9` |
 | 新建会话 | `Alt+N` | `⌃⌥N` |
@@ -124,8 +130,9 @@ To test locally, link the package into a profile and restart DSH Web.
 | 打开面板 | `Alt+P` | `⌃⌥P` |
 | 聚焦并清空搜索框 | `Alt+Shift+F` | `⌃⇧F` |
 
-macOS 预设的键位选择理由：Chrome 里 `⌘+1-9` 和 `⌃+1-9` **都会**切换标签页（Safari 是 `⌘+1-9`），所以顺序切换改用 `⌃⇧1-9`；`⌥`（Option）是特殊字符键，单独使用会破坏输入框打字，因此从不单独使用；`⌃+N/P/F/B/A/E/K/D` 是 macOS 文本系统的 Emacs 行编辑键；`⌘⇧+3/4/5` 是系统截图。全部组合已在 macOS Chrome 与 Safari 中逐项筛查无冲突。macOS 界面上所有键位都用原生符号显示：⌃ = Control、⌥ = Option、⇧ = Shift、⌘ = Command（Fn 键不会被网页键盘事件报告，故未使用）。
+macOS 预设的键位选择理由：Chrome 里 `⌘+1-9` 和 `⌃+1-9` **都会**切换标签页（Safari 是 `⌘+1-9`），所以顺序切换改用 `⌃⇧1-9`；`⌥`（Option）是特殊字符键，单独使用会破坏输入框打字，因此从不单独使用；`⌃+N/P/F/B/A/E/K/D` 是 macOS 文本系统的 Emacs 行编辑键；`⌃+↑/↓` 是 Mission Control，所以上一个/下一个会话改用 `⌃⌥↑/↓`；`⌘⇧+3/4/5` 是系统截图。全部组合已在 macOS Chrome 与 Safari 中逐项筛查无冲突。macOS 界面上所有键位都用原生符号显示：⌃ = Control、⌥ = Option、⇧ = Shift、⌘ = Command（Fn 键不会被网页键盘事件报告，故未使用）。
 
+- **`Alt+↑` / `Alt+↓`**（macOS `⌃⌥↑` / `⌃⌥↓`）：在侧边栏显示顺序中切换到上一个 / 下一个会话，两端循环回绕。
 - **`Alt+1-9` / `⌃⇧1-9`**：始终按侧边栏显示顺序切换到第 N 个会话（与固定无关，所见即所得——分组折叠、活动提升后的顺序都自动跟随）。
 - **固定槽位**（Windows `Alt+Shift+1-9` / macOS `⌃⌥1-9`）：独立的固定槽位三态键——空槽位固定当前会话；固定着别的会话时跳转过去；固定着当前会话时取消固定。适合"很多频繁交互的会话，一键回到之前的对话"。
 - **归档当前会话**：一键把当前会话从会话列表移除 — ⚠️ DSH 目前无法取消归档，请谨慎操作（不会删除会话）。
@@ -171,6 +178,7 @@ dsh --profile web
 1. `Alt+1-9` 直达侧边栏第 N 个会话；`Alt+Shift+1-9` 固定槽位三态键（macOS 对应 `⌃⇧1-9` / `⌃⌥1-9`）。
 2. `Alt+`` 进入导航模式，`↑↓` 移动高亮环，`Enter` 进入，`Esc` 取消。
 3. 点侧边栏底部键盘图标（或 `Alt+P`）打开面板，在「按键」页给任意功能重新录制键位。
+4. `Alt+↑` / `Alt+↓` 在会话间循环切换（macOS `⌃⌥↑` / `⌃⌥↓`）。
 
 ### 工作原理
 

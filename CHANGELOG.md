@@ -3,6 +3,11 @@
 All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.5.0] - 2026-08-16
+
+### Added
+- Previous / next session hotkeys: `Alt+↑` / `Alt+↓` on Windows, `⌃⌥↑` / `⌃⌥↓` on macOS (Ctrl+Up/Down is Mission Control), stepping through the sidebar display order with wrap-around at both ends; both actions are rebindable from the panel.
+
 ## [1.4.1] - 2026-08-16
 
 ### Changed
