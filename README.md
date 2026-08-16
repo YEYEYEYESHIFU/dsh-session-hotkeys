@@ -1,5 +1,7 @@
 # dsh-session-hotkeys
 
+[![Awesome DSH Plugin](https://awesome-dsh-plugin.com/badge.svg)](https://awesome-dsh-plugin.com)
+
 Session hotkeys for DeepSeek Harness Web · 给 DeepSeek Harness Web 的会话快捷键插件
 
 Manage sessions from the keyboard the way you switch browser tabs — 像切换浏览器标签页一样用键盘管理会话。
