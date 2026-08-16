@@ -1,6 +1,8 @@
 # dsh-session-hotkeys
 
 [![Awesome DSH Plugin](https://awesome-dsh-plugin.com/badge.svg)](https://awesome-dsh-plugin.com)
+[![npm version](https://img.shields.io/npm/v/dsh-session-hotkeys)](https://www.npmjs.com/package/dsh-session-hotkeys)
+[![license](https://img.shields.io/npm/l/dsh-session-hotkeys)](./LICENSE)
 
 Session hotkeys for DeepSeek Harness Web · 给 DeepSeek Harness Web 的会话快捷键插件
 
