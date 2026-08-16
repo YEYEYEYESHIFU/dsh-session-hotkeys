@@ -31,6 +31,48 @@
       ]
     }
   },
+  "dshWorkshop": {
+    "schema": "omdsh-workshop-package/v1",
+    "type": "plugin",
+    "integration": {
+      "protocol": "harness-cordis",
+      "artifact": "cordis.patch.yml"
+    },
+    "install": {
+      "mode": "guided",
+      "adapter": "third-party",
+      "failurePolicy": "manual",
+      "touchesCurrentBeforeActivation": false
+    },
+    "lifecycle": {
+      "activation": "immediate",
+      "dispose": "supported"
+    },
+    "permissions": [
+      "ui:sidebar",
+      "ui:session",
+      "browser:keyboard",
+      "dom:read",
+      "storage:localstorage"
+    ],
+    "compatibility": {
+      "dshVersions": [
+        "0.1.0-rc.6"
+      ]
+    },
+    "capability": {
+      "id": "session-hotkeys",
+      "kind": "ui",
+      "invocation": "expand the DeepSeek Harness Web sidebar and press the positional switch binding (Windows Alt+1, macOS Ctrl+Shift+1)",
+      "expected": "the Nth session in the sidebar display order becomes the active session"
+    },
+    "evidence": {
+      "install": null,
+      "failureIsolation": null,
+      "hotReload": null,
+      "remove": null
+    }
+  },
   "license": "MIT",
   "author": "Captain Americano <william.yemao@gmail.com>",
   "repository": {
