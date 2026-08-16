@@ -3,6 +3,12 @@
 All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.5.1] - 2026-08-16
+
+### Changed
+- README: added Uninstall / Compatibility / Configuration / Permissions & data / Troubleshooting sections (bilingual) and a security-reporting line — radar listing compliance.
+- package.json: declared peerDependencies for react and the injected @deepseek-ai client bundles.
+
 ## [1.5.0] - 2026-08-16
 
 ### Added

@@ -75,6 +75,14 @@ Then start DSH Web:
 dsh --profile web
 ```
 
+### Uninstall
+
+1. Remove `dsh-session-hotkeys` from both `dependencies` and `dsh.profile.bundles` in the profile's `package.json`
+2. Run `pnpm install` inside the profile directory
+3. Restart DSH Web
+
+Custom bindings and pins live in browser localStorage under the keys `dsh.session-hotkeys.keys` and `dsh.session-hotkeys.pins`; delete them from the browser devtools for a fully clean removal.
+
 ### Usage
 
 1. `Alt+1-9` jumps straight to the Nth sidebar session; `Alt+Shift+1-9` is the pin slot tri-state key (macOS: `⌃⇧1-9` / `⌃⌥1-9`).
@@ -85,6 +93,27 @@ dsh --profile web
 ### How it works
 
 A browser-only Cordis bundle. It reads the session list and current session from the `sessions` service, switches with `sessions.open()`, creates sessions via `workspaces.startSession()`, and expands the sidebar via `layout.toggleSidebar()` when needed. Session display order is read **directly from the rendered sidebar DOM** (row titles mapped back to session ids), so it always matches the grouping/sorting/collapse state the user sees. The navigation-mode ring and hint are mounted on `document.body`, independent of any slot render chain. No server data channel, no server-side state.
+
+### Compatibility
+
+- Tested with DSH Web shipped by `@deepseek-ai/dsh@0.1.0-rc.6` (npx channel); last verified 2026-08-16.
+- Windows (Chrome) and macOS (Chrome + Safari) presets are screened for system/browser conflicts — see the macOS rationale above.
+- Session order and search-box targeting depend on DSH Web's DOM class names (fuzzy fallbacks included) — see Known limitations.
+
+### Configuration
+
+No config files: everything is configured from the panel. Bindings and pins are stored per browser origin in localStorage (`dsh.session-hotkeys.keys` / `dsh.session-hotkeys.pins`) and survive refreshes and DSH restarts.
+
+### Permissions & data
+
+Browser-only: no network requests, no server-side state, no credentials. The plugin reads the session list from the rendered sidebar DOM and the `sessions` / `workspaces` / `layout` services, and writes nothing but the two localStorage keys above.
+
+### Troubleshooting
+
+- "Shortcut didn't fire": open the panel (`Alt+P`) and check the Diagnostics block — recent hits show whether your key press was captured, and the service line shows whether sessions/workspaces/layout are available.
+- Switching keys do nothing: make sure the sidebar is expanded — display order is read from the rendered rows.
+- Lost customizations: clearing browser site data resets bindings and pins.
+- Something else broke: open an issue with your DSH version and plugin version.
 
 ### Known limitations
 
@@ -105,7 +134,7 @@ To test locally, link the package into a profile and restart DSH Web.
 
 ### License
 
-[MIT](LICENSE)
+[MIT](LICENSE). Security issues: report via GitHub Issues.
 
 
 ---
@@ -175,6 +204,14 @@ dsh plugin --profile web add "github:<你的用户名>/dsh-session-hotkeys#main"
 dsh --profile web
 ```
 
+### 卸载
+
+1. 从 profile 目录的 `package.json` 中移除 `dependencies` 与 `dsh.profile.bundles` 里的 `dsh-session-hotkeys`
+2. 在 profile 目录执行 `pnpm install`
+3. 重启 DSH Web
+
+自定义键位与固定关系保存在浏览器 localStorage 的 `dsh.session-hotkeys.keys` 与 `dsh.session-hotkeys.pins` 两个键中；如需彻底清除，可在浏览器开发者工具中删除。
+
 ### 使用
 
 1. `Alt+1-9` 直达侧边栏第 N 个会话；`Alt+Shift+1-9` 固定槽位三态键（macOS 对应 `⌃⇧1-9` / `⌃⌥1-9`）。
@@ -185,6 +222,27 @@ dsh --profile web
 ### 工作原理
 
 插件是纯浏览器端 Cordis bundle：从 `sessions` 服务读取会话列表与当前会话，`sessions.open()` 执行切换；`workspaces.startSession()` 新建会话；`layout.toggleSidebar()` 在需要时展开侧栏。会话显示顺序**直接读取已渲染的侧边栏 DOM**（行标题映射回会话 id），因此与用户看到的分组/排序/折叠状态完全一致；导航模式的高亮环和提示条直接挂在 `document.body`，不依赖任何插槽渲染链。不新增任何服务端数据通道，不保存任何服务端状态。
+
+### 兼容性
+
+- 已在 `@deepseek-ai/dsh@0.1.0-rc.6`（npx 渠道）随附的 DSH Web 上测试，最后验证日期 2026-08-16。
+- Windows（Chrome）与 macOS（Chrome + Safari）预设已逐项筛查系统/浏览器冲突——见上方 macOS 键位理由。
+- 会话顺序与搜索框定位依赖 DSH Web 的 DOM 类名（带模糊匹配回退）——见已知限制。
+
+### 配置
+
+无配置文件：所有设置都在面板内完成。键位与固定关系按浏览器 origin 保存在 localStorage（`dsh.session-hotkeys.keys` / `dsh.session-hotkeys.pins`），刷新与重启 DSH 后依然有效。
+
+### 权限与数据
+
+纯浏览器端：无网络请求、无服务端状态、不触碰凭据。插件只读取已渲染侧边栏 DOM 与 `sessions` / `workspaces` / `layout` 服务，仅写入上述两个 localStorage 键。
+
+### 故障排查
+
+- 「快捷键没反应」：打开面板（`Alt+P`）看底部诊断区——最近命中会显示按键是否被捕获，服务行显示 sessions/workspaces/layout 是否可用。
+- 切换键无效：确认侧边栏处于展开状态——显示顺序读取自已渲染的行。
+- 自定义丢失：清除浏览器站点数据会重置键位与固定槽位。
+- 其它问题：提交 issue 并附上你的 DSH 版本与插件版本。
 
 ### 已知限制
 
@@ -205,5 +263,5 @@ npm run verify     # 自检：包结构 / 客户端 bundle 可解析且无外部
 
 ### License
 
-[MIT](LICENSE)
+[MIT](LICENSE)。安全问题：请通过 GitHub Issues 反馈。
 
