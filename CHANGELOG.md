@@ -3,6 +3,11 @@
 All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.5.2] - 2026-08-21
+
+### Fixed
+- Numpad digits now work for every digit action: `Alt+Numpad1-9` (Windows) / `⌃⇧Numpad1-9` (macOS) switch to the Nth session, pin/unpin/jump slots, and can be recorded as custom bindings. Previously only top-row `Digit1-9` codes matched (issue #1). Note: NumLock must be on — with NumLock off the numpad reports navigation keys (End/Home/arrows) that cannot be mapped safely.
+
 ## [1.5.1] - 2026-08-16
 
 ### Changed

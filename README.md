@@ -37,7 +37,7 @@ Session hotkeys for DeepSeek Harness Web: manage sessions from the keyboard the 
 Why the macOS preset looks this way: in Chrome **both** `⌘+1-9` and `⌃+1-9` switch tabs (Safari: `⌘+1-9`), so positional switching uses `⌃⇧1-9`; `⌥` (Option) is the special-character key and is never used alone (it would break typing); `⌃+N/P/F/B/A/E/K/D` are Emacs line-editing bindings in macOS text fields; `⌃+↑/↓` is Mission Control, so previous/next session uses `⌃⌥↑/↓`; `⌘⇧+3/4/5` are system screenshots. Every combo has been screened against macOS Chrome and Safari. On macOS all bindings render with native symbols: ⌃ = Control, ⌥ = Option, ⇧ = Shift, ⌘ = Command (the Fn key is never reported to web key events, so it is not used).
 
 - **`Alt+↑` / `Alt+↓`** (macOS `⌃⌥↑` / `⌃⌥↓`): step to the previous / next session in sidebar display order, wrapping around at both ends.
-- **`Alt+1-9` / `⌃⇧1-9`**: always switch to the Nth session by sidebar display order (independent of pins; follows grouping, promotion and collapsed groups — what you see is what you get).
+- **`Alt+1-9` / `⌃⇧1-9`**: always switch to the Nth session by sidebar display order (independent of pins; follows grouping, promotion and collapsed groups — what you see is what you get). Numpad digits work too: `Alt+Numpad1-9` / `⌃⇧Numpad1-9` (NumLock on).
 - **Pinned slots** (Windows `Alt+Shift+1-9` / macOS `⌃⌥1-9`): tri-state semantics — empty slot pins the current session; a slot holding another session jumps to it; a slot holding the current session unpins it. Made for power users who keep many hot sessions and want one-key return.
 - **Archive current session**: removes the current session from the session list in one key — ⚠️ DSH currently cannot unarchive sessions, so proceed with caution. Nothing is deleted.
 - **Rename current session**: opens a prompt with the current title pre-filled; confirm to rename immediately, leave empty or cancel to keep it.
@@ -120,7 +120,7 @@ Browser-only: no network requests, no server-side state, no credentials. The plu
 ### Known limitations
 
 - Session order and search-box targeting depend on DSH Web's DOM structure (CSS class names), with fuzzy fallbacks. If a DSH Web upgrade breaks them, please upgrade this plugin or open an issue mentioning your DSH version.
-- Key recording accepts letters, `` ``, F1–F12, and (for digit actions) digits 1–9.
+- Key recording accepts letters, `` ``, F1–F12, and (for digit actions) digits 1–9 — top row or numpad. Numpad digits need NumLock on: with NumLock off the numpad reports navigation keys (End/Home/arrows) instead of digits.
 - Pins and bindings are stored per browser origin; clearing site data resets them.
 - On Windows the plugin prevents the default Alt-key behavior so Chrome no longer steals focus to the browser menu (⋮) and swallows Alt+digits; the tradeoff is that Alt-code entry on the numpad (e.g. `Alt+0167`) no longer works inside DSH Web input fields.
 
@@ -166,7 +166,7 @@ To test locally, link the package into a profile and restart DSH Web.
 macOS 预设的键位选择理由：Chrome 里 `⌘+1-9` 和 `⌃+1-9` **都会**切换标签页（Safari 是 `⌘+1-9`），所以顺序切换改用 `⌃⇧1-9`；`⌥`（Option）是特殊字符键，单独使用会破坏输入框打字，因此从不单独使用；`⌃+N/P/F/B/A/E/K/D` 是 macOS 文本系统的 Emacs 行编辑键；`⌃+↑/↓` 是 Mission Control，所以上一个/下一个会话改用 `⌃⌥↑/↓`；`⌘⇧+3/4/5` 是系统截图。全部组合已在 macOS Chrome 与 Safari 中逐项筛查无冲突。macOS 界面上所有键位都用原生符号显示：⌃ = Control、⌥ = Option、⇧ = Shift、⌘ = Command（Fn 键不会被网页键盘事件报告，故未使用）。
 
 - **`Alt+↑` / `Alt+↓`**（macOS `⌃⌥↑` / `⌃⌥↓`）：在侧边栏显示顺序中切换到上一个 / 下一个会话，两端循环回绕。
-- **`Alt+1-9` / `⌃⇧1-9`**：始终按侧边栏显示顺序切换到第 N 个会话（与固定无关，所见即所得——分组折叠、活动提升后的顺序都自动跟随）。
+- **`Alt+1-9` / `⌃⇧1-9`**：始终按侧边栏显示顺序切换到第 N 个会话（与固定无关，所见即所得——分组折叠、活动提升后的顺序都自动跟随）。小键盘数字同样可用：`Alt+Numpad1-9` / `⌃⇧Numpad1-9`（需开启 NumLock）。
 - **固定槽位**（Windows `Alt+Shift+1-9` / macOS `⌃⌥1-9`）：独立的固定槽位三态键——空槽位固定当前会话；固定着别的会话时跳转过去；固定着当前会话时取消固定。适合"很多频繁交互的会话，一键回到之前的对话"。
 - **归档当前会话**：一键把当前会话从会话列表移除 — ⚠️ DSH 目前无法取消归档，请谨慎操作（不会删除会话）。
 - **重命名当前会话**：弹出输入框（预填当前标题），确认后立即重命名；留空或取消不修改。
@@ -249,7 +249,7 @@ dsh --profile web
 ### 已知限制
 
 - 会话顺序与搜索框定位依赖 DSH Web 的 DOM 结构（CSS 类名），并带有模糊匹配回退；DSH Web 前端升级后如失效，请升级本插件或提 issue 注明 DSH 版本。
-- 键位录制仅支持字母、`` ``、F1–F12 与数字（数字类动作）组合。
+- 键位录制仅支持字母、`` ``、F1–F12 与数字（数字类动作）组合，主键盘与小键盘数字均可；小键盘数字需开启 NumLock（关闭时小键盘上报的是 End/Home/方向键等导航键，不会映射为数字）。
 - 固定槽位与键位按浏览器 origin 存储，换浏览器/清缓存会重置。
 - 在 Windows 上，插件会阻止 Alt 键的默认行为，以免 Chrome 把焦点切到浏览器菜单（⋮）吞掉 Alt+数字；代价是 DSH 输入框里 Alt+小键盘的 Alt 码输入（如 `Alt+0167`）不可用。
 
