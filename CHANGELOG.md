@@ -3,6 +3,18 @@
 All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.6.0] - 2026-08-23
+
+### Added
+- Panel layout: the panel now opens upward from the sidebar button, caps the list at a compact half-height (≈190px) and scrolls it internally, so the whole panel stays short and fully visible on any screen; the bulky diagnostics card was removed in favor of a compact footer (current-session line only).
+- Archive confirmation: `Alt+Shift+A` now opens a themed confirmation card with the session title before archiving — Enter confirms, Esc (or a click on the mask) cancels, and every other hotkey is suspended while the dialog is open. Archiving stays one key, but is no longer one accidental keypress.
+- "Focus back to input" hotkey (`Alt+Enter` / `⌃⌥Enter`): returns focus to the composer's chat textarea from anywhere — including while the model menu is open — moving the caret to the end of the draft only when the input was not already focused.
+- "Alternate send" hotkey (`Alt+Shift+Enter` / `⌃⌥⇧Enter`): sends the current draft through DSH's own Ctrl/Cmd+Enter composer gesture, which the submission policy resolves to the opposite of the busy-Enter preference (queue↔steer) while the agent is running and to a normal send while idle — the setting itself stays untouched. Empty drafts are refused with a toast so the empty-draft steer-queue chord is never triggered by accident. `Enter` is now a recordable rebind key.
+- "Focus model selector" hotkey (`Alt+M` / `⌃⌥M`): moves keyboard focus to the composer's model selector with a forced brand highlight ring, and bridges the model menu's keyboard gaps — DSH's menu handler goes blind after a pane swap (the clicked cell unmounts and focus falls to `<body>`, killing ↑↓ and Esc), and its first ArrowDown skips the first entry. The plugin now re-targets ↑↓ to the first/last menu entry whenever focus sits outside the menu, and Enter on the trigger or inside the menu auto-highlights the first entry (with brief retries while a pane loads), so the ring is visible immediately after the menu opens and after every pane swap instead of only after the first arrow press. Esc closes and returns focus to the trigger. The key also toggles: pressing it while the selector is focused (or its menu is open) returns focus to the composer's chat input with the caret at the end of the draft. The trigger is located through its `aria-haspopup="menu"` + `_trigger` class + title/aria-label fingerprint with localized fallbacks, so other menus (locale, agent-preset, enter-behavior) are never targeted.
+- Panel redesign: brand-tinted header with an Esc hint chip, segmented tab control, keycap-style combo chips, card-based diagnostics footer, themed thin scrollbars, roomier row spacing and a subtle entrance animation — everything driven by DSH theme tokens.
+- New "Archived" page in the panel (`Alt+Shift+U` / `⌃⌥U`, macOS `⌃⌥U`): lists archived sessions newest-first with open and copy-id actions, plus an archived count in the Diagnostics block. The archive warning texts now point at this page instead of a dead end.
+- Note: DSH 0.1.1-rc.2 exposes no public unarchive API — sessions cannot be restored from the browser (verified against dsh-client-runtime / dsh-api-remotes / dsh-workspace type contracts); archiving never deletes session logs.
+
 ## [1.5.2] - 2026-08-21
 
 ### Fixed
