@@ -3,6 +3,13 @@
 All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.8.1] - 2026-09-05
+
+### Fixed
+- Sidebar rail footer: plugin action buttons now stack vertically in the collapsed 56px rail instead of piling up sideways and clipping (hash-tolerant `[class*=]` selectors that survive CSS-module hash churn).
+
+### Changed
+- The hotkeys sidebar button's `sidebar.footer.action` slot order moved 0 → 40 so it keeps a stable position among other footer actions.
 ## [1.8.0] - 2026-09-05
 
 ### Added
