@@ -28,7 +28,7 @@ Then restart DSH Web. 然后重启 DSH Web 即可。
 - **Alt+1-9 jumps straight to the Nth session**, `Alt+↑/↓` cycles through them — no mouse needed.
 - **Everything is rebindable** from the panel, with Windows / macOS presets that are screened against browser & system shortcuts.
 - **Works while you're typing** in the chat input — no blur-first step. Plain typing never triggers anything.
-- **Esc returns to the chat**: wherever focus sits — the model selector, nav mode, the hotkeys panel, or mid-typing — `Esc` hands focus to the transcript so the arrow / page keys scroll the conversation; `Alt+Enter` jumps back into the input. Composer popups (slash commands) and IME keep their own Esc.
+- **Esc toggles to the chat**: the first press hands focus to the transcript (↑↓ / PgUp / PgDn scroll), closing the panel, exiting nav, or dismissing the model menu on the way; the second press returns focus to exactly where it was — model selector (ring restored), input (caret intact), anything. Composer popups (slash commands) and IME keep their own Esc.
 - **Pure browser plugin**: no network requests, no server-side state, nothing collected.
 
 ### Keybindings
@@ -51,7 +51,7 @@ Defaults shown; rebind any of them in the panel (`Alt+P` → Keys tab).
 | Focus search box | `Alt+Shift+F` | `⌃⇧F` |
 | Focus model selector | `Alt+M` | `⌃⌥M` |
 | Focus back to chat input | `Alt+Enter` | `⌃⌥Enter` |
-| Return focus to the chat area (cancels panel / nav / model menu / input focus) | `Esc` | `Esc` |
+| Toggle chat focus (Esc → transcript, again → back; panel/nav/menu cancel on the way) | `Esc` | `Esc` |
 | Send with alternate busy behavior | `Alt+Shift+Enter` | `⌃⌥⇧Enter` |
 
 ### Notes
@@ -112,7 +112,7 @@ MIT licensed. Security issues: report via GitHub Issues.
 - **Alt+1-9 直达第 N 个会话**，Alt+↑/↓ 循环切换——全程不用鼠标。
 - **所有键位都能改**，面板里录制式改键；Windows / macOS 双预设已逐项筛查系统与浏览器冲突。
 - **输入框聚焦时也能用**，切会话不用先退出打字状态；普通打字永远不会误触发。
-- **Esc 回到聊天区**：无论焦点在哪——模型选择、导航模式、快捷键面板、输入框中——按 Esc 都把焦点交还会话内容，↑↓ / PgUp / PgDn 直接滚动；Alt+Enter 跳回输入框。斜杠命令弹层与 IME 的 Esc 不受影响。
+- **Esc 切换到聊天区**：第一按把焦点交给会话内容（↑↓ / PgUp / PgDn 滚动），途中顺带关闭面板、退出导航、收起模型菜单；再按一次精确还原原焦点——模型选择（含高亮环）、输入框（光标原位）等。斜杠命令弹层与 IME 的 Esc 不受影响。
 - **纯浏览器插件**：无网络请求、无服务端状态、不收集任何数据。
 
 ### 键位表
@@ -135,7 +135,7 @@ MIT licensed. Security issues: report via GitHub Issues.
 | 聚焦并清空搜索框 | `Alt+Shift+F` | `⌃⇧F` |
 | 聚焦模型选择 | `Alt+M` | `⌃⌥M` |
 | 聚焦回聊天输入框 | `Alt+Enter` | `⌃⌥Enter` |
-| 焦点回到聊天区（取消面板 / 导航 / 模型菜单 / 输入框焦点） | `Esc` | `Esc` |
+| 聊天区焦点切换（Esc 聚焦，再按还原；途中取消面板/导航/菜单） | `Esc` | `Esc` |
 | 非默认忙时方式发送 | `Alt+Shift+Enter` | `⌃⌥⇧Enter` |
 
 ### 说明
