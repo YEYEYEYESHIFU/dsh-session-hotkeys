@@ -3,6 +3,22 @@
 All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.8.0] - 2026-09-05
+
+### Added
+- "Return focus to the chat area" (`Esc`, everywhere): hands keyboard focus to the conversation scroll area (`data-conversation-scroll`, made focusable with `tabindex="-1"` on first use; its keyboard-focus outline is suppressed, so the hand-off is visually silent) so ↑↓, PageUp/PageDown and Home/End scroll the transcript natively again. It works from any focus target and cancels the transient state on the way: the hotkeys panel closes, nav mode exits, the model menu closes without bouncing focus back to its trigger, and the composer input blurs — completing the round-trip with `Alt+Enter`. Untouched: composer suggestion popups (slash commands / @mentions) and IME composition keep their `Esc`, the draft and caret are never modified, the archive confirmation cancels exactly as before, and DSH's own Esc surfaces (dialog close, popover dismiss) still run. Rebindable from the panel's Keys tab like every action (recording `Esc` itself cancels the recorder — use Reset to restore the default).
+- macOS: the Esc hand-off was screened against the macOS preset — it is the only modifier-free binding (no Chrome/Safari conflicts, IME untouched, ⌘/⌃+Esc never match), and the focus toast mentions the fn+↑↓ equivalent of PgUp/PgDn on compact Mac keyboards.
+
+## [1.7.1] - 2026-09-05
+
+### Fixed
+- Alt+B (collapse/expand sidebar) no longer fails with "Could not toggle the sidebar (layout service not ready)" on a cold boot. v1.7.0 captured `ctx.get("layout")` once during `apply`, but ui-layout provides the service later than this plugin applies (ui-layout waits for the theme service; this plugin only waits for `slots`), so the capture raced to `undefined` and every press fell into the failure toast. The layout service is now resolved at keypress time, which also fixes the sidebar re-expand step in search focus (Alt+Shift+F) and nav mode.
+
+## [1.7.0] - 2026-09-04
+
+### Added
+- Sidebar collapse/expand hotkey (`Alt+B` / `⌃⌥B`): toggles the left conversation sidebar through DSH's layout service — the same toggle the sidebar's own collapse/expand button drives (closed ⟷ default width; on narrow viewports the layout store flips its narrow-expanded state). Rebindable from the panel's Keys tab like every other action.
+
 ## [1.6.0] - 2026-08-23
 
 ### Added

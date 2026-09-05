@@ -28,6 +28,7 @@ Then restart DSH Web. 然后重启 DSH Web 即可。
 - **Alt+1-9 jumps straight to the Nth session**, `Alt+↑/↓` cycles through them — no mouse needed.
 - **Everything is rebindable** from the panel, with Windows / macOS presets that are screened against browser & system shortcuts.
 - **Works while you're typing** in the chat input — no blur-first step. Plain typing never triggers anything.
+- **Esc returns to the chat**: wherever focus sits — the model selector, nav mode, the hotkeys panel, or mid-typing — `Esc` hands focus to the transcript so the arrow / page keys scroll the conversation; `Alt+Enter` jumps back into the input. Composer popups (slash commands) and IME keep their own Esc.
 - **Pure browser plugin**: no network requests, no server-side state, nothing collected.
 
 ### Keybindings
@@ -46,9 +47,11 @@ Defaults shown; rebind any of them in the panel (`Alt+P` → Keys tab).
 | Rename current session | `Alt+Shift+R` | `⌃⌥R` |
 | Navigation mode (`↑↓` select · `Enter` open · `Esc` cancel) | `` Alt+` `` | `` ⌃` `` |
 | Open panel | `Alt+P` | `⌃⌥P` |
+| Collapse / expand the conversation sidebar | `Alt+B` | `⌃⌥B` |
 | Focus search box | `Alt+Shift+F` | `⌃⇧F` |
 | Focus model selector | `Alt+M` | `⌃⌥M` |
 | Focus back to chat input | `Alt+Enter` | `⌃⌥Enter` |
+| Return focus to the chat area (cancels panel / nav / model menu / input focus) | `Esc` | `Esc` |
 | Send with alternate busy behavior | `Alt+Shift+Enter` | `⌃⌥⇧Enter` |
 
 ### Notes
@@ -60,7 +63,7 @@ Defaults shown; rebind any of them in the panel (`Alt+P` → Keys tab).
 <details>
 <summary><b>Why the macOS preset looks like this</b></summary>
 
-Chrome maps both `⌘+1-9` and `⌃+1-9` to tab switching (Safari: `⌘+1-9`), so positional switching uses `⌃⇧1-9`. `⌥` alone would type special characters, so it is never used by itself. `⌃+↑/↓` is Mission Control and `⌃+N/P/F/B/A/E/K/D` are Emacs line-editing keys in text fields, hence the `⌥` additions elsewhere. `⌃/⌘+Enter` are the composer's own send chords, so the Enter-family adds `⌥`. All combos were screened against macOS Chrome and Safari. On macOS all bindings render with native symbols (⌃ ⌥ ⇧ ⌘).
+Chrome maps both `⌘+1-9` and `⌃+1-9` to tab switching (Safari: `⌘+1-9`), so positional switching uses `⌃⇧1-9`. `⌥` alone would type special characters, so it is never used by itself. `⌃+↑/↓` is Mission Control and `⌃+N/P/F/B/A/E/K/D` are Emacs line-editing keys in text fields, hence the `⌥` additions elsewhere. `⌃/⌘+Enter` are the composer's own send chords, so the Enter-family adds `⌥`. All combos were screened against macOS Chrome and Safari. On macOS all bindings render with native symbols (⌃ ⌥ ⇧ ⌘). The only modifier-free binding is `Esc` — no browser conflict in Chrome or Safari, the IME-cancel Esc is left untouched, and ⌘/⌃+Esc variants never match.
 
 </details>
 
@@ -70,7 +73,7 @@ Chrome maps both `⌘+1-9` and `⌃+1-9` to tab switching (Safari: `⌘+1-9`), s
 - Tested with DSH Web from `@deepseek-ai/dsh@0.1.1-rc.2` (last verified 2026-08-23).
 - Session order / search-box / model-selector targeting depend on DSH Web DOM class names (fuzzy fallbacks included); an upgrade may require updating this plugin.
 - On Windows, Alt-key default behavior is suppressed inside DSH Web so Chrome doesn't swallow `Alt+digits`; the tradeoff is numpad Alt-code entry (e.g. `Alt+0167`) doesn't work in input fields.
-- Key recording accepts letters, `` ` `` (backtick), F1–F12, and digits 1–9 (top row or numpad; NumLock required for numpad).
+- Key recording accepts letters, `` ` `` (backtick), F1–F12, and digits 1–9 (top row or numpad; NumLock required for numpad). Pressing `Esc` cancels recording, so the default `Esc` binding (input → chat) is restored with Reset rather than re-recorded.
 
 </details>
 
@@ -109,6 +112,7 @@ MIT licensed. Security issues: report via GitHub Issues.
 - **Alt+1-9 直达第 N 个会话**，Alt+↑/↓ 循环切换——全程不用鼠标。
 - **所有键位都能改**，面板里录制式改键；Windows / macOS 双预设已逐项筛查系统与浏览器冲突。
 - **输入框聚焦时也能用**，切会话不用先退出打字状态；普通打字永远不会误触发。
+- **Esc 回到聊天区**：无论焦点在哪——模型选择、导航模式、快捷键面板、输入框中——按 Esc 都把焦点交还会话内容，↑↓ / PgUp / PgDn 直接滚动；Alt+Enter 跳回输入框。斜杠命令弹层与 IME 的 Esc 不受影响。
 - **纯浏览器插件**：无网络请求、无服务端状态、不收集任何数据。
 
 ### 键位表
@@ -127,9 +131,11 @@ MIT licensed. Security issues: report via GitHub Issues.
 | 重命名当前会话 | `Alt+Shift+R` | `⌃⌥R` |
 | 导航模式（↑↓ 选择 · Enter 进入 · Esc 取消） | `` Alt+` `` | `` ⌃` `` |
 | 打开面板 | `Alt+P` | `⌃⌥P` |
+| 折叠 / 展开左侧会话栏 | `Alt+B` | `⌃⌥B` |
 | 聚焦并清空搜索框 | `Alt+Shift+F` | `⌃⇧F` |
 | 聚焦模型选择 | `Alt+M` | `⌃⌥M` |
 | 聚焦回聊天输入框 | `Alt+Enter` | `⌃⌥Enter` |
+| 焦点回到聊天区（取消面板 / 导航 / 模型菜单 / 输入框焦点） | `Esc` | `Esc` |
 | 非默认忙时方式发送 | `Alt+Shift+Enter` | `⌃⌥⇧Enter` |
 
 ### 说明
@@ -141,7 +147,7 @@ MIT licensed. Security issues: report via GitHub Issues.
 <details>
 <summary><b>macOS 预设为什么长这样</b></summary>
 
-Chrome 里 ⌘+1-9 和 ⌃+1-9 都会切换标签页（Safari 只有 ⌘），所以顺序切换用 ⌃⇧1-9。⌥ 单独按会打出特殊字符，因此从不当主修饰键。⌃+↑/↓ 是调度中心，⌃+N/P/F/B/A/E/K/D 是文本框的 Emacs 行编辑键，故相关组合都补了 ⌥。⌃/⌘+Enter 是输入框自带的发送快捷键，Enter 系列因此加 ⌥。全部组合已在 macOS Chrome 与 Safari 中逐项筛查无冲突。macOS 上键位一律用原生符号显示（⌃ ⌥ ⇧ ⌘）。
+Chrome 里 ⌘+1-9 和 ⌃+1-9 都会切换标签页（Safari 只有 ⌘），所以顺序切换用 ⌃⇧1-9。⌥ 单独按会打出特殊字符，因此从不当主修饰键。⌃+↑/↓ 是调度中心，⌃+N/P/F/B/A/E/K/D 是文本框的 Emacs 行编辑键，故相关组合都补了 ⌥。⌃/⌘+Enter 是输入框自带的发送快捷键，Enter 系列因此加 ⌥。全部组合已在 macOS Chrome 与 Safari 中逐项筛查无冲突。macOS 上键位一律用原生符号显示（⌃ ⌥ ⇧ ⌘）。唯一的无修饰键绑定是 Esc——Chrome 与 Safari 均无浏览器级冲突，输入法组合中的 Esc 不受影响，⌘/⌃+Esc 也不会误触发。
 
 </details>
 
@@ -151,7 +157,7 @@ Chrome 里 ⌘+1-9 和 ⌃+1-9 都会切换标签页（Safari 只有 ⌘），�
 - 已在 `@deepseek-ai/dsh@0.1.1-rc.2` 随附的 DSH Web 上测试（最后验证 2026-08-23）。
 - 会话顺序 / 搜索框 / 模型选择按钮的定位依赖 DSH Web 的 DOM 类名（带模糊匹配回退）；DSH 升级后可能需要同步更新本插件。
 - Windows 上插件在 DSH Web 内屏蔽了 Alt 默认行为以免 Chrome 吞掉 Alt+数字；代价是输入框内小键盘 Alt 码（如 `Alt+0167`）不可用。
-- 改键支持字母、``、F1–F12 与数字 1–9（主键盘 / 小键盘均可；小键盘需开 NumLock）。
+- 改键支持字母、``、F1–F12 与数字 1–9（主键盘 / 小键盘均可；小键盘需开 NumLock）。按 Esc 会取消录制，默认的 Esc 键位（输入框 → 聊天区）请用「恢复默认」找回，而非重新录制。
 
 </details>
 
