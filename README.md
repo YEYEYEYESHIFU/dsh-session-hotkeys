@@ -48,6 +48,7 @@ Defaults shown; rebind any of them in the panel (`Alt+P` → Keys tab).
 | Navigation mode (`↑↓` select · `Enter` open · `Esc` cancel) | `` Alt+` `` | `` ⌃` `` |
 | Open panel | `Alt+P` | `⌃⌥P` |
 | Collapse / expand the conversation sidebar | `Alt+B` | `⌃⌥B` |
+| Close / restore the split view workspace | `Alt+W` | `⌃⌥W` |
 | Focus search box | `Alt+Shift+F` | `⌃⇧F` |
 | Focus model selector | `Alt+M` | `⌃⌥M` |
 | Focus back to chat input | `Alt+Enter` | `⌃⌥Enter` |
@@ -132,6 +133,7 @@ MIT licensed. Security issues: report via GitHub Issues.
 | 导航模式（↑↓ 选择 · Enter 进入 · Esc 取消） | `` Alt+` `` | `` ⌃` `` |
 | 打开面板 | `Alt+P` | `⌃⌥P` |
 | 折叠 / 展开左侧会话栏 | `Alt+B` | `⌃⌥B` |
+| 关闭 / 恢复分屏工作区 | `Alt+W` | `⌃⌥W` |
 | 聚焦并清空搜索框 | `Alt+Shift+F` | `⌃⇧F` |
 | 聚焦模型选择 | `Alt+M` | `⌃⌥M` |
 | 聚焦回聊天输入框 | `Alt+Enter` | `⌃⌥Enter` |
