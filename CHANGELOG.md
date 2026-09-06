@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [1.9.0] - 2026-09-06
 
 ### Added
-- Split view close/restore hotkey (`Alt+W` / `⌃⌥W`): hides the dsh-split-view workspace (`.dsv-overlay` via a root class, so it works regardless of mount order) and returns to the native single-conversation view; pressing it again restores the workspace. The panes and their sessions stay mounted — hiding is purely visual, nothing closes or archives — and the choice persists in `localStorage` (`dsh.session-hotkeys.dsvHidden`), re-applied at startup so a refresh never resurrects a closed workspace. With no split view present the chord warns instead. Rebindable from the panel's Keys tab like every action.
+- Split view pane-close hotkey (`Alt+W` / `⌃⌥W`): closes the **focused pane** through a new `window.__dshSplitView.closeFocused()` bridge — three panes → two, two → one; the closed pane's session is untouched and stays in the sidebar. When only one pane remains, the whole workspace tucks away instead (a root class hides `.dsv-overlay` regardless of mount order; persisted in `localStorage` as `dsh.session-hotkeys.dsvHidden`, re-applied at startup) and the native single-conversation view returns. A corner pill ("⧉ Split view", bottom-right) appears while tucked away and restores the workspace with its pane tree intact; `Alt+W` restores too. A warning toast shows when no split view is open. Rebindable from the panel's Keys tab like every action.
 
 ## [1.8.1] - 2026-09-05
 
