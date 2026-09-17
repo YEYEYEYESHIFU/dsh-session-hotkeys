@@ -57,7 +57,7 @@ Defaults shown; rebind any of them in the panel (`Alt+P` → Keys tab).
 
 ### Notes
 
-- **Archiving** asks for confirmation first and never deletes anything — archived sessions stay listed in the panel's Archived page. (DSH 0.1.1-rc.2 has no public unarchive API, so restoring is host-side.)
+- **Archiving** asks for confirmation first and never deletes anything — archived sessions stay listed in the panel's Archived page. (DSH 0.1.x has no public unarchive API, so restoring is host-side.)
 - Bindings and pins are saved in browser localStorage and survive restarts. Clearing site data resets them.
 - The sidebar must be expanded: session order is read from the rendered rows.
 
@@ -71,7 +71,7 @@ Chrome maps both `⌘+1-9` and `⌃+1-9` to tab switching (Safari: `⌘+1-9`), s
 <details>
 <summary><b>Compatibility & known limitations</b></summary>
 
-- Tested with DSH Web from `@deepseek-ai/dsh@0.1.1-rc.2` (last verified 2026-08-23).
+- Tested with DSH Web from `@deepseek-ai/dsh@0.1.1-rc.2`; re-verified end-to-end on `@deepseek-ai/dsh@0.1.5-rc.2` (2026-09-15) in both the standard and the split-view UI.
 - Session order / search-box / model-selector targeting depend on DSH Web DOM class names (fuzzy fallbacks included); an upgrade may require updating this plugin.
 - On Windows, Alt-key default behavior is suppressed inside DSH Web so Chrome doesn't swallow `Alt+digits`; the tradeoff is numpad Alt-code entry (e.g. `Alt+0167`) doesn't work in input fields.
 - Key recording accepts letters, `` ` `` (backtick), F1–F12, and digits 1–9 (top row or numpad; NumLock required for numpad). Pressing `Esc` cancels recording, so the default `Esc` binding (input → chat) is restored with Reset rather than re-recorded.
@@ -142,7 +142,7 @@ MIT licensed. Security issues: report via GitHub Issues.
 
 ### 说明
 
-- **归档**有确认卡片且从不删除数据——归档的会话仍在面板「已归档」页可查。（DSH 0.1.1-rc.2 无公开取消归档接口，恢复需宿主端操作。）
+- **归档**有确认卡片且从不删除数据——归档的会话仍在面板「已归档」页可查。（DSH 0.1.x 无公开取消归档接口，恢复需宿主端操作。）
 - 键位与固定关系存于浏览器 localStorage，重启后依然有效；清除站点数据会重置。
 - 切换依赖侧边栏展开状态：显示顺序直接读取已渲染的侧边栏行。
 
@@ -156,7 +156,7 @@ Chrome 里 ⌘+1-9 和 ⌃+1-9 都会切换标签页（Safari 只有 ⌘），�
 <details>
 <summary><b>兼容性与已知限制</b></summary>
 
-- 已在 `@deepseek-ai/dsh@0.1.1-rc.2` 随附的 DSH Web 上测试（最后验证 2026-08-23）。
+- 已在 `@deepseek-ai/dsh@0.1.1-rc.2` 随附的 DSH Web 上测试；并在 `@deepseek-ai/dsh@0.1.5-rc.2` 上做了完整回归（2026-09-15，标准视图与分屏两种状态）。
 - 会话顺序 / 搜索框 / 模型选择按钮的定位依赖 DSH Web 的 DOM 类名（带模糊匹配回退）；DSH 升级后可能需要同步更新本插件。
 - Windows 上插件在 DSH Web 内屏蔽了 Alt 默认行为以免 Chrome 吞掉 Alt+数字；代价是输入框内小键盘 Alt 码（如 `Alt+0167`）不可用。
 - 改键支持字母、``、F1–F12 与数字 1–9（主键盘 / 小键盘均可；小键盘需开 NumLock）。按 Esc 会取消录制，默认的 Esc 键位（输入框 → 聊天区）请用「恢复默认」找回，而非重新录制。

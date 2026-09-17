@@ -3,6 +3,36 @@
 All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.9.2] - 2026-09-15
+
+### Fixed
+- **DSH 0.1.5 compatibility — the plugin's second port (verified end-to-end on `@deepseek-ai/dsh@0.1.5-rc.2`).** 0.1.5 provisions its client services asynchronously and moved two pieces of the DOM it is keyed to, which together left most bindings silently dead (`Alt+1` answered "Sessions service unavailable"). Five fixes:
+  - `exports.inject` now declares `sessions`, `workspaces` and `locale` besides `slots`, so cordis defers `apply()` until every service captured at apply time is live. Previously those captures raced their async providers and landed on `undefined`, silently disabling session switching, pinning, navigation, rename, archive, new session and the localized labels.
+  - **New session** (`Alt+N`): 0.1.5 moved `startSession()` from the `workspaces` service to the new `uiWorkspace` service — the same call the app's own New Session flow makes. The hotkey resolves `uiWorkspace` lazily and falls back to `workspaces.startSession()` on cores that still have it.
+  - **Composer**: 0.1.5 replaced the composer textarea with a Lexical contenteditable div (`data-composer-input` / `data-phase` / `data-lexical-editor`). The composer selectors, the draft-emptiness check (now `innerText`-based — the placeholder is an attribute, never content) and the caret-to-end move (Selection/Range collapse) all learned the new shape. This repairs focus-back (`Alt+Enter`), the Esc hand-off from the input, and alternate send (`Alt+Shift+Enter`).
+  - **Collapsed sidebar**: 0.1.5 dropped the `data-sidebar-collapsed` attribute; the collapsed rail is now detected through the hash-tolerant `_root` + `_collapsed` class pair (both markers accepted), restoring the auto-expand step in search focus and navigation mode.
+  - **Tucked-away split view**: with the split-view workspace hidden (`Alt+W`), its panes stay mounted, so scope lookups kept targeting a hidden pane's composer/transcript — focus silently fell to `<body>` while the plugin still toasted success. Element scopes, the transcript scroller and the split-view bridge delegation now require a *visible* pane, so the standard chat UI is targeted while the workspace is tucked away.
+- Archived-page note no longer pins the missing unarchive API to one version ("DSH 0.1.x").
+
+### Verified
+- The full binding suite was driven with Playwright against a spare 0.1.5-rc.2 instance, in both UI states (split view open, then tucked away): positional switching `Alt+1-9`, prev/next, pin tri-state + pin jump, nav mode + ring + Esc exit, search focus, sidebar collapse/restore, model-selector focus + toggle-back, focus-back to the input, Esc hand-off round trip, archive confirmation + cancel, the archived page, new session, rename, and alternate send (empty-draft refusal plus the dispatched `Ctrl+Enter` provably reaching the composer). **38/38 checks, zero console errors.**
+
+
+## [1.9.1] - 2026-09-12
+
+### Fixed
+- DSH 0.1.5 compatibility: the browser half no longer declares
+  `@deepseek-ai/dsh-client-runtime` in `dsh.client.inject`. That package was
+  removed in DSH 0.1.5 (split into `dsh-client-ui-renderer`,
+  `dsh-client-ui-session` and the `dsh-api-*` controllers), so the declaration
+  had become a dangling module id that no longer gated activation. The
+  remaining entries (`dsh-client-ui-layout`, `dsh-client-ui-sidebar`) exist in
+  both 0.1.1-rc.2 and 0.1.5-rc.1, and both of them transitively wait for the
+  renderer/runtime layer, so activation ordering is preserved on both cores.
+  The stale `@deepseek-ai/dsh-client-runtime` peer dependency was removed with
+  it. Verified on 0.1.1-rc.2 and 0.1.5-rc.1 (sidebar panel button renders,
+  no console errors).
+
 ## [1.9.0] - 2026-09-06
 
 ### Added
