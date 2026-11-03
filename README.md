@@ -13,11 +13,26 @@ Switch sessions from the keyboard the way you switch browser tabs.
 
 ## Install
 
+DSH Web (`dsh` CLI):
+
 ```sh
 dsh plugin --profile web add "dsh-session-hotkeys"
 ```
 
-Then restart DSH Web. 然后重启 DSH Web 即可。
+DeepSeek Harness Desktop: the `desktop` profile is reserved — the standalone CLI
+refuses it (`profile "desktop" is managed exclusively by the Electron
+application`). Install from **Settings → Plugins** inside the app instead, which
+applies the change live (no restart needed). The equivalent command line, run
+through the desktop's own bundled CLI, is:
+
+```sh
+"<install dir>/DeepSeek Harness.exe" --expose-internals \
+  "<install dir>/resources/app.asar/dsh/node_modules/@deepseek-ai/dsh-desktop-host/lib/cli.js" \
+  plugin --profile desktop add "dsh-session-hotkeys"
+```
+
+Restart DSH web after installing there; the desktop app picks the plugin up
+without a restart. 桌面版无需重启，浏览器版安装后重启 `dsh web`。
 
 > [English](#english) · [简体中文](#简体中文)
 
@@ -72,6 +87,7 @@ Chrome maps both `⌘+1-9` and `⌃+1-9` to tab switching (Safari: `⌘+1-9`), s
 <summary><b>Compatibility & known limitations</b></summary>
 
 - Tested with DSH Web from `@deepseek-ai/dsh@0.1.1-rc.2`; re-verified end-to-end on `@deepseek-ai/dsh@0.1.5-rc.2` (2026-09-15) in both the standard and the split-view UI.
+- Re-verified end-to-end on `@deepseek-ai/dsh@0.2.0-rc.2` (2026-09-30) — the runtime bundled with DeepSeek Harness Desktop 0.2.0-rc.2 — in the `desktop` profile, with no `compatibility.json` version exemption. The 0.2.0 launcher refuses to mount a bundle whose `@deepseek-ai/dsh-*` peers do not accept the running version, so this package declares `^0.2.0-rc.2` alongside `^0.1.1-rc.2`.
 - Session order / search-box / model-selector targeting depend on DSH Web DOM class names (fuzzy fallbacks included); an upgrade may require updating this plugin.
 - On Windows, Alt-key default behavior is suppressed inside DSH Web so Chrome doesn't swallow `Alt+digits`; the tradeoff is numpad Alt-code entry (e.g. `Alt+0167`) doesn't work in input fields.
 - Key recording accepts letters, `` ` `` (backtick), F1–F12, and digits 1–9 (top row or numpad; NumLock required for numpad). Pressing `Esc` cancels recording, so the default `Esc` binding (input → chat) is restored with Reset rather than re-recorded.
@@ -157,6 +173,7 @@ Chrome 里 ⌘+1-9 和 ⌃+1-9 都会切换标签页（Safari 只有 ⌘），�
 <summary><b>兼容性与已知限制</b></summary>
 
 - 已在 `@deepseek-ai/dsh@0.1.1-rc.2` 随附的 DSH Web 上测试；并在 `@deepseek-ai/dsh@0.1.5-rc.2` 上做了完整回归（2026-09-15，标准视图与分屏两种状态）。
+- 已在 `@deepseek-ai/dsh@0.2.0-rc.2` 上做完整回归（2026-09-30，即 DeepSeek Harness 桌面版 0.2.0-rc.2 内置的运行时），运行于 `desktop` profile，且无需 `compatibility.json` 版本豁免。0.2.0 启动器会拒绝挂载 `@deepseek-ai/dsh-*` peer 不匹配当前版本的包，因此本包在 `^0.1.1-rc.2` 之外同时声明了 `^0.2.0-rc.2`。
 - 会话顺序 / 搜索框 / 模型选择按钮的定位依赖 DSH Web 的 DOM 类名（带模糊匹配回退）；DSH 升级后可能需要同步更新本插件。
 - Windows 上插件在 DSH Web 内屏蔽了 Alt 默认行为以免 Chrome 吞掉 Alt+数字；代价是输入框内小键盘 Alt 码（如 `Alt+0167`）不可用。
 - 改键支持字母、``、F1–F12 与数字 1–9（主键盘 / 小键盘均可；小键盘需开 NumLock）。按 Esc 会取消录制，默认的 Esc 键位（输入框 → 聊天区）请用「恢复默认」找回，而非重新录制。
