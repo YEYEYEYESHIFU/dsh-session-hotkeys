@@ -65,8 +65,8 @@
     "capability": {
       "id": "session-hotkeys",
       "kind": "ui",
-      "invocation": "expand the DeepSeek Harness Web sidebar and press the positional switch binding (Windows Alt+1, macOS Ctrl+Shift+1)",
-      "expected": "the Nth session in the sidebar display order becomes the active session"
+      "invocation": "expand the sidebar and hold the configured positional-switch modifiers to show badges for positions 1–9; press a matching number to switch",
+      "expected": "the first nine displayed sessions show position badges while the exact switch modifiers are held, and the badges hide on release"
     },
     "evidence": {
       "install": null,
@@ -100,6 +100,7 @@
     "productivity"
   ],
   "scripts": {
+    "test": "node --test",
     "verify": "node scripts/verify-self-contained.mjs",
     "prepublishOnly": "node scripts/verify-self-contained.mjs"
   }

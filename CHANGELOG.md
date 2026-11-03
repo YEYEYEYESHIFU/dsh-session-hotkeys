@@ -3,6 +3,11 @@
 All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [Unreleased]
+
+### Added
+- Show temporary `1`–`9` badges beside the first nine displayed sessions while the exact configured positional-switch modifiers are held; hide them on release or window blur.
+
 ## [1.9.5] - 2026-09-30
 
 Third port: DSH 0.2.0 — verified end-to-end on `@deepseek-ai/dsh@0.2.0-rc.2`,
