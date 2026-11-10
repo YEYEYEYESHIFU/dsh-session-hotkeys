@@ -3,10 +3,22 @@
 All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## [Unreleased]
+## [1.9.6] - 2026-11-11
 
 ### Added
 - Show temporary `1`–`9` badges beside the first nine displayed sessions while the exact configured positional-switch modifiers are held; hide them on release or window blur.
+
+### Changed
+- **Compatibility gate widened to the 0.2.1/0.2.2 runtimes.** The DeepSeek Harness
+  Desktop update (44.7.0) bundles the `@deepseek-ai/dsh@0.2.2-rc.1` runtime, and the
+  0.2.0+ launcher silently skips any bundle whose `@deepseek-ai/dsh-*` peers do not
+  accept the running version — so this plugin stopped loading on updated desktops.
+  `peerDependencies` now accept `^0.2.1-rc.2 || ^0.2.2-rc.1` alongside
+  `^0.1.1-rc.2 || ^0.2.0-rc.2`, and `dshVersions` declares both runtimes. The
+  compat widening is what makes the bundle mount again; key-by-key behavioral
+  re-verification against the 0.2.2 UI is still pending — the plugin's selectors
+  target the long-stable sidebar/composer surfaces, but report any binding that
+  misbehaves on the new runtime.
 
 ## [1.9.5] - 2026-09-30
 
