@@ -3,6 +3,96 @@
 All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [Unreleased]
+
+### Added
+- Show temporary `1`–`9` badges beside the first nine displayed sessions while the exact configured positional-switch modifiers are held; hide them on release or window blur.
+
+## [1.9.5] - 2026-09-30
+
+Third port: DSH 0.2.0 — verified end-to-end on `@deepseek-ai/dsh@0.2.0-rc.2`,
+the runtime bundled with DeepSeek Harness Desktop 0.2.0-rc.2. Three things the
+plugin had keyed on moved, and 0.2.0 adds a launch-time compatibility gate.
+
+### Added
+- **0.2.0 compatibility.**
+  - `peerDependencies` for `@deepseek-ai/dsh-client-ui-layout` and
+    `@deepseek-ai/dsh-client-ui-sidebar` now accept `^0.2.0-rc.2` as well as
+    `^0.1.1-rc.2`. Without this the launcher disables the bundle at startup
+    ("Plugin dsh-session-hotkeys@1.9.4 is incompatible with dsh 0.2.0-rc.2") and
+    the profile would need a `compatibility.json` version exemption to load it.
+  - **Current session** is now resolved by `currentSessionId()`: the 0.1.x store
+    field first, then 0.2.0's main-view retention (`byId[id].retainedBy.mainView`,
+    the store no longer carries `current`), then the `aria-selected` sidebar row.
+  - **Activation** goes through `openSessionId()`: `uiWorkspace.openSession(id)`
+    on 0.2.0 — the same call the sidebar's own row click makes — and
+    `sessions.open(id)` on 0.1.x. Positional switching, previous/next, pin jump
+    and the panel's position, pin and archived rows all route through it, and
+    report the "sessions service unavailable" warning instead of a success toast
+    when neither path exists.
+  - **Row-to-session mapping** prefers each row's own `data-row-key="session:<id>"`
+    over the title heuristic. The heuristic skips blank sessions, which 0.2.0
+    renders as "Untitled" rows carrying no store title, so `Alt+3` answered
+    "Position 3 has no session" whenever a blank session sat at that position.
+    Titles remain the fallback on 0.1.x, where rows carry no key.
+
+### Verified
+- Playwright against a throwaway 0.2.0-rc.2 instance (a clone of the live
+  `desktop` profile, **no version exemption in `compatibility.json`**): 14/14
+  checks, zero console errors — plugin activation in the sidebar, `Alt+2` and
+  `Alt+3` positional switching (including a blank "Untitled" row), `Alt+↓` /
+  `Alt+↑`, pin + `Ctrl+Alt+1` jump + unpin, `Alt+P`, `Alt+B`, `Alt+Shift+F`,
+  `Alt+M`, `Esc` → transcript, and `Alt+N` from a non-blank session.
+- Independently re-verified on 2026-10-01 against **both** runtimes from the same
+  source: `@deepseek-ai/dsh@0.1.5-rc.3` booted as `dsh web`, and the 0.2.0-rc.2
+  runtime bundled with the desktop app (each in a throwaway profile, `link:`ed
+  source, no version exemption). Per surface: the launcher's compatibility gate
+  skipped no bundle, the sidebar footer action and the overlay registered (both
+  are list slots whose `id` the plugin supplies), `Alt+P` opened and closed the
+  panel, `Alt+1/2/3` matched the sidebar display order, `Alt+↓`/`Alt+↑` moved one
+  row, `Alt+B` toggled the sidebar (280px ↔ 56px rail), and pin + `Ctrl+Alt+1`
+  returned to the pinned session — no console errors and no failed requests on
+  either runtime. In the live desktop app both occupants
+  (`session-hotkeys-button`, `session-hotkeys-overlay`) are active in the running
+  client.
+- `npm run verify` (package structure, self-contained client bundle, exports,
+  patch row) passes.
+
+## [1.9.4] - 2026-09-21
+
+Interop fixes for dsh-split-screen, whose panes rename the composer card
+marker (`data-composer-card` → `data-dsv-composer-card`).
+
+### Fixed
+
+- **Esc yields to a pane's `/` or `@` suggestion popup again.**
+  `COMPOSER_POPUP_SELECTOR` was `[data-composer-card] [role="listbox"]` and the
+  scope came from `input.closest("[data-composer-card]")` — both null inside a
+  pane, so the scope silently degraded to `document`, where only the COVERED
+  stock card's (always closed) popup is found. `composerPopupOpen()` therefore
+  always returned false, `tryComposerBlur` fired its capture-phase
+  `preventDefault()+stopPropagation()`, and Lexical's `KEY_ESCAPE_COMMAND`
+  never ran: Esc jumped focus to the transcript instead of dismissing the menu
+  it was pointed at. Both sites now accept either marker.
+- **`Alt+Enter` cannot focus a hidden composer.** `findComposerInput` returned
+  the first DOM match per selector, and the split-view workspace keeps the
+  covered stock page mounted — so with no pane visible the document fallback
+  focused the stock page's invisible composer and reported success while the
+  caret went nowhere the user could see. Candidates now have to be actually
+  rendered (`getClientRects().length > 0`), the same guard the model trigger
+  already used; when nothing is visible the action says so instead.
+
+## [1.9.3] - 2026-09-18
+
+### Fixed
+- **Model menu arrows died mid-list (the "stuck at DeepSeek-V4-Flash-Vision-Exp" bug).** DSH's model list keeps deduplicated duplicate rows **hidden** in the DOM (a "recent models" section per provider ahead of the full list), and its roving-focus handler steps through the raw entry array: `focus()` on a hidden entry silently falls to `<body>` and every arrow goes dead — wherever your list's visible/hidden partition puts the trap (for this profile, right after `DeepSeek-V4-Flash-Vision-Exp`). The keyboard bridge now **owns ↑↓ for the whole open menu**, cycling between *rendered* entries only (hidden rows skipped, both ends wrap), instead of deferring to DSH's handler while focus sat inside the menu. Enter still confirms the focused entry (DSH activates DOM focus — verified), Esc is unchanged.
+  - `findModelTrigger()` now prefers the trigger whose menu is actually open when several composers coexist (split view keeps one per pane plus the covered original); the pane-scoped candidate used to win even with a foreign menu open, silently disarming the bridge.
+  - The menu-open autofocus and the bridge's first/last targets use the same rendered-entries filter, so a hidden first entry can no longer swallow focus.
+
+### Verified
+- Playwright against a spare DSH instance sharing the live profile: opened the pane composer's model menu, walked ↓ through all six rendered rows (wrap at both ends), ↑ back, Enter-picked a model (trigger title updated, menu closed), Esc round trip; the pre-fix repro (stall on the first ↓ into a hidden duplicate) no longer reproduces. Zero console errors.
+
+
 ## [1.9.2] - 2026-09-15
 
 ### Fixed

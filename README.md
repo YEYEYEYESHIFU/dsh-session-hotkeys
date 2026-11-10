@@ -13,11 +13,26 @@ Switch sessions from the keyboard the way you switch browser tabs.
 
 ## Install
 
+DSH Web (`dsh` CLI):
+
 ```sh
 dsh plugin --profile web add "dsh-session-hotkeys"
 ```
 
-Then restart DSH Web. 然后重启 DSH Web 即可。
+DeepSeek Harness Desktop: the `desktop` profile is reserved — the standalone CLI
+refuses it (`profile "desktop" is managed exclusively by the Electron
+application`). Install from **Settings → Plugins** inside the app instead, which
+applies the change live (no restart needed). The equivalent command line, run
+through the desktop's own bundled CLI, is:
+
+```sh
+"<install dir>/DeepSeek Harness.exe" --expose-internals \
+  "<install dir>/resources/app.asar/dsh/node_modules/@deepseek-ai/dsh-desktop-host/lib/cli.js" \
+  plugin --profile desktop add "dsh-session-hotkeys"
+```
+
+Restart DSH web after installing there; the desktop app picks the plugin up
+without a restart. 桌面版无需重启，浏览器版安装后重启 `dsh web`。
 
 > [English](#english) · [简体中文](#简体中文)
 
@@ -25,7 +40,7 @@ Then restart DSH Web. 然后重启 DSH Web 即可。
 
 ### Why
 
-- **Alt+1-9 jumps straight to the Nth session**, `Alt+↑/↓` cycles through them — no mouse needed.
+- **Alt+1-9 jumps straight to the Nth session**; hold the configured switch modifiers to show `1`–`9` beside the first nine sidebar rows, then release to hide them. `Alt+↑/↓` cycles through sessions — no mouse needed.
 - **Everything is rebindable** from the panel, with Windows / macOS presets that are screened against browser & system shortcuts.
 - **Works while you're typing** in the chat input — no blur-first step. Plain typing never triggers anything.
 - **Esc toggles to the chat**: the first press hands focus to the transcript (↑↓ / PgUp / PgDn scroll), closing the panel, exiting nav, or dismissing the model menu on the way; the second press returns focus to exactly where it was — model selector (ring restored), input (caret intact), anything. Composer popups (slash commands) and IME keep their own Esc.
@@ -72,6 +87,7 @@ Chrome maps both `⌘+1-9` and `⌃+1-9` to tab switching (Safari: `⌘+1-9`), s
 <summary><b>Compatibility & known limitations</b></summary>
 
 - Tested with DSH Web from `@deepseek-ai/dsh@0.1.1-rc.2`; re-verified end-to-end on `@deepseek-ai/dsh@0.1.5-rc.2` (2026-09-15) in both the standard and the split-view UI.
+- Re-verified end-to-end on `@deepseek-ai/dsh@0.2.0-rc.2` (2026-09-30) — the runtime bundled with DeepSeek Harness Desktop 0.2.0-rc.2 — in the `desktop` profile, with no `compatibility.json` version exemption. The 0.2.0 launcher refuses to mount a bundle whose `@deepseek-ai/dsh-*` peers do not accept the running version, so this package declares `^0.2.0-rc.2` alongside `^0.1.1-rc.2`.
 - Session order / search-box / model-selector targeting depend on DSH Web DOM class names (fuzzy fallbacks included); an upgrade may require updating this plugin.
 - On Windows, Alt-key default behavior is suppressed inside DSH Web so Chrome doesn't swallow `Alt+digits`; the tradeoff is numpad Alt-code entry (e.g. `Alt+0167`) doesn't work in input fields.
 - Key recording accepts letters, `` ` `` (backtick), F1–F12, and digits 1–9 (top row or numpad; NumLock required for numpad). Pressing `Esc` cancels recording, so the default `Esc` binding (input → chat) is restored with Reset rather than re-recorded.
@@ -98,7 +114,7 @@ cd dsh-session-hotkeys
 npm run verify     # self-check: package structure, parseable client bundle, no external imports
 ```
 
-A browser-only Cordis bundle: reads sessions from the `sessions` service and switches with `sessions.open()`; display order comes directly from the rendered sidebar DOM so it always matches grouping/sorting/collapse state.
+A browser-only Cordis bundle: reads sessions from `sessions`; switches with `sessions.open()` on DSH 0.1.x and `uiWorkspace.openSession()` on 0.2.0. Position order comes directly from the rendered sidebar DOM.
 
 MIT licensed. Security issues: report via GitHub Issues.
 
@@ -110,7 +126,7 @@ MIT licensed. Security issues: report via GitHub Issues.
 
 ### 为什么值得装
 
-- **Alt+1-9 直达第 N 个会话**，Alt+↑/↓ 循环切换——全程不用鼠标。
+- **Alt+1-9 直达第 N 个会话**；按住当前顺序切换键位的修饰键，侧栏前九个会话旁会显示 `1`–`9`，松开即隐藏。Alt+↑/↓ 循环切换——全程不用鼠标。
 - **所有键位都能改**，面板里录制式改键；Windows / macOS 双预设已逐项筛查系统与浏览器冲突。
 - **输入框聚焦时也能用**，切会话不用先退出打字状态；普通打字永远不会误触发。
 - **Esc 切换到聊天区**：第一按把焦点交给会话内容（↑↓ / PgUp / PgDn 滚动），途中顺带关闭面板、退出导航、收起模型菜单；再按一次精确还原原焦点——模型选择（含高亮环）、输入框（光标原位）等。斜杠命令弹层与 IME 的 Esc 不受影响。
@@ -157,6 +173,7 @@ Chrome 里 ⌘+1-9 和 ⌃+1-9 都会切换标签页（Safari 只有 ⌘），�
 <summary><b>兼容性与已知限制</b></summary>
 
 - 已在 `@deepseek-ai/dsh@0.1.1-rc.2` 随附的 DSH Web 上测试；并在 `@deepseek-ai/dsh@0.1.5-rc.2` 上做了完整回归（2026-09-15，标准视图与分屏两种状态）。
+- 已在 `@deepseek-ai/dsh@0.2.0-rc.2` 上做完整回归（2026-09-30，即 DeepSeek Harness 桌面版 0.2.0-rc.2 内置的运行时），运行于 `desktop` profile，且无需 `compatibility.json` 版本豁免。0.2.0 启动器会拒绝挂载 `@deepseek-ai/dsh-*` peer 不匹配当前版本的包，因此本包在 `^0.1.1-rc.2` 之外同时声明了 `^0.2.0-rc.2`。
 - 会话顺序 / 搜索框 / 模型选择按钮的定位依赖 DSH Web 的 DOM 类名（带模糊匹配回退）；DSH 升级后可能需要同步更新本插件。
 - Windows 上插件在 DSH Web 内屏蔽了 Alt 默认行为以免 Chrome 吞掉 Alt+数字；代价是输入框内小键盘 Alt 码（如 `Alt+0167`）不可用。
 - 改键支持字母、``、F1–F12 与数字 1–9（主键盘 / 小键盘均可；小键盘需开 NumLock）。按 Esc 会取消录制，默认的 Esc 键位（输入框 → 聊天区）请用「恢复默认」找回，而非重新录制。
@@ -183,7 +200,7 @@ cd dsh-session-hotkeys
 npm run verify     # 自检：包结构 / 客户端 bundle 可解析且无外部依赖
 ```
 
-纯浏览器端 Cordis bundle：从 `sessions` 服务读取并切换会话；显示顺序直接读取已渲染的侧边栏 DOM，所见即所得。
+纯浏览器端 Cordis bundle：从 `sessions` 服务读取会话；DSH 0.1.x 通过 `sessions.open()` 切换，0.2.0 通过 `uiWorkspace.openSession()` 切换；位置顺序来自已渲染的侧边栏 DOM。
 
 MIT 开源。安全问题请通过 GitHub Issues 反馈。
 
