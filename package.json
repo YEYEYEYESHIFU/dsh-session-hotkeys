@@ -1,6 +1,6 @@
 {
   "name": "dsh-session-hotkeys",
-  "version": "1.9.5",
+  "version": "1.9.6",
   "description": "Session hotkeys for DeepSeek Harness Web: Alt+1-9 positional switching, independent pinned slots, keyboard navigation over the real session list, keyboard-only model switching (ring-guided menu), focus-back, Esc-to-chat and alternate-busy-behavior send chords, archive confirmation — every binding rebindable from the panel.",
   "type": "module",
   "main": "lib/index.js",
@@ -59,7 +59,9 @@
         "0.1.1-rc.2",
         "0.1.5-rc.1",
         "0.1.5-rc.2",
-        "0.2.0-rc.2"
+        "0.2.0-rc.2",
+        "0.2.1-rc.2",
+        "0.2.2-rc.1"
       ]
     },
     "capability": {
@@ -83,8 +85,8 @@
   },
   "peerDependencies": {
     "react": "^18.2.0",
-    "@deepseek-ai/dsh-client-ui-layout": "^0.1.1-rc.2 || ^0.2.0-rc.2",
-    "@deepseek-ai/dsh-client-ui-sidebar": "^0.1.1-rc.2 || ^0.2.0-rc.2"
+    "@deepseek-ai/dsh-client-ui-layout": "^0.1.1-rc.2 || ^0.2.0-rc.2 || ^0.2.1-rc.2 || ^0.2.2-rc.1",
+    "@deepseek-ai/dsh-client-ui-sidebar": "^0.1.1-rc.2 || ^0.2.0-rc.2 || ^0.2.1-rc.2 || ^0.2.2-rc.1"
   },
   "homepage": "https://github.com/YEYEYEYESHIFU/dsh-session-hotkeys#readme",
   "bugs": {
