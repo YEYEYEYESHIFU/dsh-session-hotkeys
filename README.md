@@ -53,6 +53,7 @@ Defaults shown; rebind any of them in the panel (`Alt+P` → Keys tab).
 | Action | Windows | macOS |
 | --- | --- | --- |
 | Switch to Nth session | `Alt+1-9` | `⌃⇧1-9` |
+| Show position badges `1`–`9` beside the first nine sessions (hold, then press a digit to switch) | hold `Alt` | hold `⌃⇧` |
 | Previous / next session | `Alt+↑` / `Alt+↓` | `⌃⌥↑` / `⌃⌥↓` |
 | Pin slot (pin / jump / unpin) | `Alt+Shift+1-9` | `⌃⌥1-9` |
 | Jump to pinned slot | `Ctrl+Alt+1-9` | `⌃⌥⇧1-9` |
@@ -140,6 +141,7 @@ MIT licensed. Security issues: report via GitHub Issues.
 | 动作 | Windows | macOS |
 | --- | --- | --- |
 | 切换到第 N 个会话 | `Alt+1-9` | `⌃⇧1-9` |
+| 显示位置角标 `1`–`9`（按住修饰键，再按数字切换） | 按住 `Alt` | 按住 `⌃⇧` |
 | 上一个 / 下一个会话 | `Alt+↑` / `Alt+↓` | `⌃⌥↑` / `⌃⌥↓` |
 | 固定槽位三态（固定/跳转/取消） | `Alt+Shift+1-9` | `⌃⌥1-9` |
 | 跳转固定槽位 | `Ctrl+Alt+1-9` | `⌃⌥⇧1-9` |
